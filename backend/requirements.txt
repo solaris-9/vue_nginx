@@ -7,3 +7,13 @@ djoser
 stripe
 gunicorn
 environs
+mysqlclient
+simplejson
+datetime
+pyecharts
+selenium
+pandas
+numpy
+sqlalchemy
+python-ldap
+pymysql

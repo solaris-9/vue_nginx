@@ -3,9 +3,9 @@ version: "3"
 services:
   db:
     container_name: db
-    image: public.ecr.aws/docker/library/postgres
+    image: public.ecr.aws/docker/library/mysql:8.2.0
     environment:
-      - "POSTGRES_HOST_AUTH_METHOD=trust"
+      - "MYSQL_ROOT_PASSWORD=Welcome#1234"
     networks:
       - django-nginx
 
@@ -16,6 +16,8 @@ services:
     volumes:
       - .:/code
       - django-static:/backend/static
+    ports:
+      - "8003:8003"
     environment:
       - "DJANGO_SECRET_KEY=sk_test_51J0hTaE44A62LrCkpptWPzuzjizullhlPsoKUmMx6iYJn9LJcDet2em7i8RoyD7J5PmSNYZt3hpH4W80x7MFAe6P00i73Vnzew"
       - "DJANGO_DEBUG=True"
@@ -32,19 +34,20 @@ services:
       - ./frontend:/app/
       - /app/node_modules
     ports:
-      - "8880:8080"
+      - "8002:8002"
     depends_on:
       - backend
     networks:
       - django-nginx
     environment:
       - NODE_ENV=development
+      - LOG_LEVEL=debug
 
   nginx:
     image: public.ecr.aws/docker/library/nginx:alpine
     container_name: nginx
     ports:
-      - "8000:80"
+      - "8001:8001"
     depends_on:
       - backend
     volumes:
@@ -52,6 +55,8 @@ services:
       - django-static:/usr/src/app/static
     networks:
       - django-nginx
+    environment:
+      - LOG_LEVEL=debug
 
 volumes:
   django-static:

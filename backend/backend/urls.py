@@ -7,8 +7,9 @@ urlpatterns = [
     # Admin
     path('admin/', admin.site.urls),
     # Api
-    path('api/v1/', include('djoser.urls')),
-    path('api/v1/', include('djoser.urls.authtoken')),
-    path('api/v1/', include('product.urls')),
-    path('api/v1/', include('order.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('api/user/', include('user.urls')),
+    # path('api/v1/', include('djoser.urls')),
+    # path('api/v1/', include('product.urls')),
+    # path('api/v1/', include('order.urls')),
+]
+

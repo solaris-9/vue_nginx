@@ -1,0 +1,184 @@
+{
+  "id": "3719207",
+  "name": "vue-element-icon",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "16618162",
+      "name": "express",
+      "font_class": "express",
+      "unicode": "e6ac",
+      "unicode_decimal": 59052
+    },
+    {
+      "icon_id": "142300",
+      "name": "document",
+      "font_class": "document",
+      "unicode": "e95a",
+      "unicode_decimal": 59738
+    },
+    {
+      "icon_id": "238500",
+      "name": "product-features",
+      "font_class": "productfeatures",
+      "unicode": "e6f4",
+      "unicode_decimal": 59124
+    },
+    {
+      "icon_id": "1061336",
+      "name": "version",
+      "font_class": "version",
+      "unicode": "e68d",
+      "unicode_decimal": 59021
+    },
+    {
+      "icon_id": "1270503",
+      "name": "document",
+      "font_class": "19DOCUMENT",
+      "unicode": "e643",
+      "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "1499997",
+      "name": "document",
+      "font_class": "document1",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "6145833",
+      "name": "document",
+      "font_class": "document2",
+      "unicode": "e6d1",
+      "unicode_decimal": 59089
+    },
+    {
+      "icon_id": "6189551",
+      "name": "router",
+      "font_class": "router",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "6376397",
+      "name": "Document",
+      "font_class": "Document",
+      "unicode": "e72c",
+      "unicode_decimal": 59180
+    },
+    {
+      "icon_id": "6807805",
+      "name": "Wifi-Router",
+      "font_class": "Wifi-Router",
+      "unicode": "ecc2",
+      "unicode_decimal": 60610
+    },
+    {
+      "icon_id": "7008920",
+      "name": "document",
+      "font_class": "document3",
+      "unicode": "e6f3",
+      "unicode_decimal": 59123
+    },
+    {
+      "icon_id": "7596159",
+      "name": "Document",
+      "font_class": "Document1",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "7684929",
+      "name": "shipment",
+      "font_class": "shipment",
+      "unicode": "e6cf",
+      "unicode_decimal": 59087
+    },
+    {
+      "icon_id": "8061562",
+      "name": "0_release_24",
+      "font_class": "_release_",
+      "unicode": "e677",
+      "unicode_decimal": 58999
+    },
+    {
+      "icon_id": "8642299",
+      "name": "SHIPMENT",
+      "font_class": "SHIPMENT",
+      "unicode": "e817",
+      "unicode_decimal": 59415
+    },
+    {
+      "icon_id": "11488321",
+      "name": "supplier-features-fill",
+      "font_class": "supplier-features-fill",
+      "unicode": "e78d",
+      "unicode_decimal": 59277
+    },
+    {
+      "icon_id": "12195181",
+      "name": "features",
+      "font_class": "features",
+      "unicode": "eca1",
+      "unicode_decimal": 60577
+    },
+    {
+      "icon_id": "17575619",
+      "name": "versions",
+      "font_class": "versions",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "220469",
+      "name": "demand-line",
+      "font_class": "demand-line",
+      "unicode": "e66e",
+      "unicode_decimal": 58990
+    },
+    {
+      "icon_id": "10265388",
+      "name": "demand",
+      "font_class": "demand1",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "11760925",
+      "name": "release",
+      "font_class": "release1",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "1272746",
+      "name": "demand",
+      "font_class": "demand",
+      "unicode": "e65d",
+      "unicode_decimal": 58973
+    },
+    {
+      "icon_id": "6172758",
+      "name": "release",
+      "font_class": "release",
+      "unicode": "e85a",
+      "unicode_decimal": 59482
+    },
+    {
+      "icon_id": "11488305",
+      "name": "product",
+      "font_class": "product",
+      "unicode": "e788",
+      "unicode_decimal": 59272
+    },
+    {
+      "icon_id": "16440929",
+      "name": "line-shipment",
+      "font_class": "line-shipment",
+      "unicode": "e6ab",
+      "unicode_decimal": 59051
+    }
+  ]
+}

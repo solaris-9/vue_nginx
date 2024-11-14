@@ -1,0 +1,115 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3719207 */
+  src: url('iconfont.woff2?t=1666602884670') format('woff2'),
+       url('iconfont.woff?t=1666602884670') format('woff'),
+       url('iconfont.ttf?t=1666602884670') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-express:before {
+  content: "\e6ac";
+}
+
+.icon-document:before {
+  content: "\e95a";
+}
+
+.icon-productfeatures:before {
+  content: "\e6f4";
+}
+
+.icon-version:before {
+  content: "\e68d";
+}
+
+.icon-19DOCUMENT:before {
+  content: "\e643";
+}
+
+.icon-document1:before {
+  content: "\e602";
+}
+
+.icon-document2:before {
+  content: "\e6d1";
+}
+
+.icon-router:before {
+  content: "\e60a";
+}
+
+.icon-Document:before {
+  content: "\e72c";
+}
+
+.icon-Wifi-Router:before {
+  content: "\ecc2";
+}
+
+.icon-document3:before {
+  content: "\e6f3";
+}
+
+.icon-Document1:before {
+  content: "\e62d";
+}
+
+.icon-shipment:before {
+  content: "\e6cf";
+}
+
+.icon-_release_:before {
+  content: "\e677";
+}
+
+.icon-SHIPMENT:before {
+  content: "\e817";
+}
+
+.icon-supplier-features-fill:before {
+  content: "\e78d";
+}
+
+.icon-features:before {
+  content: "\eca1";
+}
+
+.icon-versions:before {
+  content: "\e62f";
+}
+
+.icon-demand-line:before {
+  content: "\e66e";
+}
+
+.icon-demand1:before {
+  content: "\e614";
+}
+
+.icon-release1:before {
+  content: "\e613";
+}
+
+.icon-demand:before {
+  content: "\e65d";
+}
+
+.icon-release:before {
+  content: "\e85a";
+}
+
+.icon-product:before {
+  content: "\e788";
+}
+
+.icon-line-shipment:before {
+  content: "\e6ab";
+}
+
