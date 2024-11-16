@@ -44,10 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # 3rd party
-    'rest_framework',
-    'rest_framework.authtoken',
-    'corsheaders',
-    'djoser',
+    #'rest_framework',
+    #'rest_framework.authtoken',
+    #'corsheaders',
+    #'djoser',
 
     # Apps
     'user',
@@ -76,7 +76,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'backend.urls'
+ROOT_URLCONF = 'dproject.urls'
 
 TEMPLATES = [
     {
@@ -94,22 +94,40 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'backend.wsgi.application'
+WSGI_APPLICATION = 'dproject.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-        # 'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'bbddb',
-        # 'USER': 'tools_viewer',
-        # 'PASSWORD': 'BBDtools@2023',
-        # 'HOST': '10.182.106.155',
-        # 'PORT': 3306,
-        # 'charset':'utf8mb4',
-    # }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'bbddb',
+        'USER': 'tools_viewer',
+        'PASSWORD': 'BBDtools@2023',
+        'HOST': '10.182.106.155',
+        'PORT': 3306,
+        'charset':'utf8mb4',
+    },
+    'requestdb': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'requestdb',
+        'USER': 'reqadmin',
+        'PASSWORD': 'BBD@2024',
+        'HOST': '10.74.97.87',
+        'PORT': 3306,
+        'charset':'utf8mb4',
+    },
+    'customerdb': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'customerdb',
+        'USER': 'analyzer',
+        'PASSWORD': 'BBD@tcPassw0rd',
+        'HOST': '10.74.97.99',
+        'PORT': 3306,
+        'charset':'utf8mb4',
+    }
 }
 
 # Password validation

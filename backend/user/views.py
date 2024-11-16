@@ -302,11 +302,11 @@ def grade_manage(request):
     dResult['data']['column'].append('View')
     dResult['data']['column'].append('Export')
     dResult['data']['column'].append('Download')
-    dResult['data']['column'].append('ID') 
+    dResult['data']['column'].append('GID') 
     
     cmd = """
         SELECT
-            Grade,`Add`,Edit,`Delete`,Search,View,Export,Download,ID
+            Grade,`Add`,Edit,`Delete`,Search,View,Export,Download,GID
         FROM
             auth_grade         
             
@@ -327,7 +327,7 @@ def grade_manage(request):
         dItem['View'] = row[5]
         dItem['Export'] = row[6]
         dItem['Download'] = row[7] 
-        dItem['ID'] = row[8]        
+        dItem['GID'] = row[8]        
         dResult['data']['items'].append(dItem)
     
     return HttpResponse(simplejson.dumps(dResult), content_type='application/json')

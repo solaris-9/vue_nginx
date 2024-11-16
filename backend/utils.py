@@ -4,6 +4,7 @@ import pymysql
 #import openai
 import time, base64, hmac
 from django.conf import settings
+from dproject import settings as bs
 
 class vue_response:
 
@@ -30,12 +31,19 @@ class analyzer_db:
 
   def __init__(self):
     self.conn = pymysql.connect(
-      host = os.getenv('C_DB_HOST'),
-      port = int(os.getenv('C_DB_PORT')),
-      database = os.getenv('C_DB_NAME'),
-      user = os.getenv('C_DB_USERNAME'),
-      password = os.getenv('C_DB_PASSWORD'),
-      charset = 'utf8mb4')
+      # host = os.getenv('C_DB_HOST'),
+      # port = int(os.getenv('C_DB_PORT')),
+      # database = os.getenv('C_DB_NAME'),
+      # user = os.getenv('C_DB_USERNAME'),
+      # password = os.getenv('C_DB_PASSWORD'),
+      # charset = 'utf8mb4'
+      host = bs.DATABASES['requestdb']['HOST'],
+      port = bs.DATABASES['requestdb']['PORT'],
+      database = bs.DATABASES['requestdb']['NAME'],
+      user = bs.DATABASES['requestdb']['USER'],
+      password = bs.DATABASES['requestdb']['PASSWORD'],
+      charset = bs.DATABASES['requestdb']['charset']
+    )
     
     self.cur = self.conn.cursor()
 

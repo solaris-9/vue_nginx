@@ -15,7 +15,6 @@ services:
     command: /start_dev.sh
     volumes:
       - .:/code
-      - django-static:/backend/static
     ports:
       - "8003:8003"
     environment:
