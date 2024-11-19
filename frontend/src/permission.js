@@ -42,7 +42,7 @@ router.beforeEach(async(to, from, next) => {
                     accessRoutes = sigleUserName.includes(store.getters.name)? sigleRoutes.concat(accessRoutes): accessRoutes
                     router.options.routes = awaitRoutes.concat(accessRoutes)
 
-                    router.addRoutes(accessRoutes)
+                    router.addRoute(accessRoutes)
                     next({...to, replace: true })
                 } catch (error) {
                     // remove token and go to login page to re-login

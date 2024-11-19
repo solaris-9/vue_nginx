@@ -5,13 +5,13 @@
       <div style="height: 100%;width: 100%;display: inline-block;margin-top: 5%;">
         <!-- information title -->
         <span style="display: inline-block;width: 100%;font-size: 60px;font-weight: 600;color: #005aff;">
-          <span style="display: block;">BBD Device Deployment Tool </span>
+          <span style="display: block;">BBD Device Deployment Tool</span>
           
         </span>
         <!-- Prompt the initial page information according to the level status -->
         <span style="display: inline-block;width: 100%;margin-top: 15%;font-size: 20px;">
           <span v-if="levelStatus">
-            Facilitate your work and improve work efficiency of whole BBD.
+            Facilitate your work and improve work efficiency of BBD.
           </span> 
           <span v-else style="color: #000;">
             <span style="display: block;">Sorry, you don’t have access authority, if you need access, please mail </span>
@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     /**
-     * @description: copy specified content
+     * @description: copy specified content 
      * @param {String} text copied content 
      * @return void
      */

@@ -1,5 +1,5 @@
 module.exports = {
-    title: 'BBD Customer',
+    title: 'BBD Device Deployment',
     tagsView: true,
     /**
      * @type {boolean} true | false
@@ -12,5 +12,5 @@ module.exports = {
      * @description Whether show the logo in sidebar
      */
     sidebarLogo: true,
-    version: '3.4.20241022',
+    version: '0.1.2024.11.19',
 }

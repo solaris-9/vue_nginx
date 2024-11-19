@@ -1,14 +1,15 @@
+@use './variables.scss' as variable;
 #app {
     .main-container {
         min-height: 100%;
         transition: margin-left .28s;
-        margin-left: $sideBarWidth;
+        margin-left: variable.$sideBarWidth;
         position: relative;
     }
     .sidebar-container {
         transition: width 0.28s;
-        width: $sideBarWidth !important;
-        background-color: $menuBg;
+        width: variable.$sideBarWidth !important;
+        background-color: variable.$menuBg;
         height: 100%;
         position: fixed;
         font-size: 0px;
@@ -59,18 +60,18 @@
         .submenu-title-noDropdown,
         .el-submenu__title {
             &:hover {
-                background-color: $menuHover !important;
+                background-color: variable.$menuHover !important;
             }
         }
         .is-active>.el-submenu__title {
-            color: $subMenuActiveText !important;
+            color: variable.$subMenuActiveText !important;
         }
         & .nest-menu .el-submenu>.el-submenu__title,
         & .el-submenu .el-menu-item {
-            min-width: $sideBarWidth !important;
-            background-color: $subMenuBg !important;
+            min-width: variable.$sideBarWidth !important;
+            background-color: variable.$subMenuBg !important;
             &:hover {
-                background-color: $subMenuHover !important;
+                background-color: variable.$subMenuHover !important;
             }
         }
     }
@@ -124,7 +125,7 @@
         }
     }
     .el-menu--collapse .el-menu .el-submenu {
-        min-width: $sideBarWidth !important;
+        min-width: variable.$sideBarWidth !important;
     }
     // mobile responsive
     .mobile {
@@ -133,13 +134,13 @@
         }
         .sidebar-container {
             transition: transform .28s;
-            width: $sideBarWidth !important;
+            width: variable.$sideBarWidth !important;
         }
         &.hideSidebar {
             .sidebar-container {
                 pointer-events: none;
                 transition-duration: 0.3s;
-                transform: translate3d(-$sideBarWidth, 0, 0);
+                transform: translate3d(-(variable.$sideBarWidth), 0, 0);
             }
         }
     }
@@ -166,7 +167,7 @@
     .el-menu-item {
         &:hover {
             // you can use $subMenuHover
-            background-color: $menuHover !important;
+            background-color: variable.$menuHover !important;
         }
     }
     // the scroll bar appears when the subMenu is too long

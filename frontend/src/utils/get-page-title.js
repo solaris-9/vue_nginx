@@ -1,6 +1,6 @@
 import defaultSettings from '@/settings'
 
-const title = defaultSettings.title || 'BBD Customer'
+const title = defaultSettings.title || 'BBD Device Deployment'
 
 export default function getPageTitle(pageTitle) {
     if (pageTitle) {
