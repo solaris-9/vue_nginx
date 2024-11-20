@@ -1,7 +1,4 @@
-import {
-    createRouter,
-    createWebHistory
-} from 'vue-router' // Import from vue-router 4
+import { createRouter, createWebHashHistory } from 'vue-router' // Import from vue-router 4
 import Layout from '@/layout' // Layout import as usual
 import permData from '@/utils/botton-perm-config.json' // Permission data
 // Constant routes that don’t need permission checks
@@ -32,11 +29,47 @@ export const constantRoutes = [{
     {
         path: '/other',
         component: Layout, // Assuming Layout is the main component for `/other`
-        children: [{
-            path: 'home',
-            component: () => import('@/views/other/home'), // Adjust the path to the actual component
-        }, ],
+        children: [
+            {
+                path: 'home',
+                component: () => import('@/views/other/home'), // Adjust the path to the actual component
+            }, 
+        ],
     },
+    {
+        path: '/admin',
+        component: Layout,
+        name: 'admin',
+        meta: {
+            title: 'Admin',
+            icon: 'user',
+            roles: ["Administrator"]
+        },
+        children: [
+            {
+                path: 'grade-management',
+                name: 'GradeManagement',
+                component: () =>
+                    import('@/views/admin/grade-management/index'),
+                meta: {
+                    title: 'Grade Management',
+                    roles: permData['GradeManagement']['view'],
+                    icon: 'user'
+                }
+            },
+            {
+                path: 'user',
+                name: 'GradeManagement',
+                component: () =>
+                    import('@/views/admin/grade/index'),
+                meta: {
+                    title: 'User Management',
+                    roles: permData['GradeManagement']['view'],
+                    icon: 'el-icon-user'
+                }
+            },
+        ]
+    }, 
 ];
 // Async routes that require permission checks
 export const asyncRoutes = [
@@ -46,18 +79,30 @@ export const asyncRoutes = [
         name: 'admin',
         meta: {
             title: 'Admin',
-            icon: 'el-icon-user',
+            icon: 'user',
             roles: ["Administrator"]
         },
         children: [
             {
-                path: 'grade',
+                path: 'grade-management',
+                name: 'GradeManagement',
+                component: () =>
+                    import('@/views/admin/grade-management/index'),
+                meta: {
+                    title: 'Grade Management',
+                    roles: permData['GradeManagement']['view'],
+                    icon: 'user'
+                }
+            },
+            {
+                path: 'user',
                 name: 'GradeManagement',
                 component: () =>
                     import('@/views/admin/grade/index'),
                 meta: {
-                    title: 'Grade Management',
-                    roles: permData['GradeManagement']['view']
+                    title: 'User Management',
+                    roles: permData['GradeManagement']['view'],
+                    icon: 'el-icon-user'
                 }
             },
         ]
@@ -68,15 +113,15 @@ export const sigleRoutes = [];
 
 // Create the router using createRouter and createWebHistory
 const router = createRouter({
-    history: createWebHistory(), // Web history mode
+    history: createWebHashHistory(), // Web history mode
     routes: constantRoutes, // Set initial constant routes
-    dubug: true,
+    debug: true,
 });
 
 // Reset router function for reloading routes
 export function resetRouter() {
     const newRouter = createRouter({
-        history: createWebHistory(),
+        history: createWebHashHistory(),
         routes: constantRoutes, // Reset to the initial routes
     });
     router.matcher = newRouter.matcher; // Reset router matcher

@@ -29,7 +29,6 @@
         <el-form-item prop="password"  style="background-color: transparent;">
           <span class="svg-container">
             <svg-icon icon-class="password" />
-                <!-- <font-awesome-icon :icon="['fas', 'lock']" /> -->
           </span>
           <el-input
             :key="passwordType"

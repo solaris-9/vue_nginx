@@ -9,7 +9,7 @@
     </div>
 </template>
     <script>
-    import GradeManagement from "./grade"
+    import GradeManagement from "./grade-management"
     //import fromTemp from "@/views/customer-info/components/from-temp"
     import { getUserName } from '@/utils/auth'
     import { getCustomer } from '@/utils/table'
