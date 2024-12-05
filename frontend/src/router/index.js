@@ -1,132 +1,182 @@
-import { createRouter, createWebHashHistory } from 'vue-router' // Import from vue-router 4
-import Layout from '@/layout' // Layout import as usual
-import permData from '@/utils/botton-perm-config.json' // Permission data
-// Constant routes that don’t need permission checks
-export const constantRoutes = [{
-        path: '/login',
-        component: () => import('@/views/login/index'),
-        hidden: true,
+import { createRouter, createWebHashHistory } from "vue-router";
+import Layout from "@/layout/index.vue";
+
+export const constantRoutes = [
+  {
+    path: "/login",
+    component: () => import("@/views/login/index.vue"),
+    hidden: true,
+  },
+
+  {
+    path: "/404",
+    component: () => import("@/views/404.vue"),
+    hidden: true,
+  },
+  {
+    path: '/redirect',
+    component: Layout,
+    meta: { hidden: true },
+    children: [
+      {
+        path: '/redirect/:path(.*)',
+        component: () => import('@/views/redirect/index.vue')
+      }
+    ]
+  },
+
+  {
+    path: "/",
+    component: Layout,
+    hidden: true,
+    redirect: "/dashboard",
+    children: [
+      {
+        path: "dashboard",
+        name: "Dashboard",
+        component: () => import("@/views/dashboard/index.vue"),
+        meta: { title: "Home", icon: "dashboard" },
+      },
+    ],
+  },
+
+  {
+    path: "/tools",
+    component: Layout,
+    redirect: "/tools/devicedp",
+    name: "Tools",
+    meta: { title: "Tools", icon: "dashboard" },
+    children: [
+      {
+        path: "devicedp",
+        name: "Devicedp",
+        component: () => import("@/views/devicedp"),
+        meta: { title: "Device Deployment", icon: "table" },
+      },     
+    ],
+  },
+
+  {
+    path: "/admin",
+    component: Layout,
+    redirect: "/admin/grade",
+    name: "Admin",
+    meta: { title: "Admin", icon: "user" },
+    children: [
+      {
+        path: "grade",
+        name: "Grade",
+        component: () => import("@/views/grade/index.vue"),
+        meta: { title: "Grade Management", icon: "table" },
+      },     
+      {
+        path: "user",
+        name: "User",
+        component: () => import("@/views/user"),
+        meta: { title: "User Management", icon: "table" },
+      },
+    ],
+  },
+
+  {
+    path: "/example",
+    component: Layout,
+    redirect: "/example/table",
+    name: "Example",
+    meta: { title: "Example", icon: "dashboard" },
+    children: [
+      {
+        path: "table",
+        name: "Table",
+        component: () => import("@/views/table/index.vue"),
+        meta: { title: "Table", icon: "table" },
+      },     
+      {
+        path: "tree",
+        name: "Tree",
+        component: () => import("@/views/tree/index.vue"),
+        meta: { title: "Tree", icon: "tree" },
+      },
+    ],
+  },
+
+  {
+    path: "/form",
+    component: Layout,
+    children: [
+      {
+        path: "index",
+        name: "Form",
+        component: () => import("@/views/form/index.vue"),
+        meta: { title: "Form", icon: "form" },
+      },
+    ],
+  },
+
+  {
+    path: "/nested",
+    component: Layout,
+    redirect: "/nested/menu1",
+    name: "Nested",
+    meta: {
+      title: "Nested",
+      icon: "nested",
     },
-    {
-        path: '/404',
-        component: () => import('@/views/404'),
-        hidden: true,
-        meta: {
-            accesspass: true,
-            roles: []
-        },
-    },
-    {
-        path: '/',
-        component: Layout,
-        redirect: '/other/home',
-    },
-    // {
-    //   path: '/home',
-    //   component: () => import('@/views/home'),
-    //   hidden: false,
-    // },
-    {
-        path: '/other',
-        component: Layout, // Assuming Layout is the main component for `/other`
+    children: [
+      {
+        path: "menu1",
+        component: () => import("@/views/nested/menu1/index.vue"), // Parent router-view
+        name: "Menu1",
+        meta: { title: "Menu1" },
         children: [
-            {
-                path: 'home',
-                component: () => import('@/views/other/home'), // Adjust the path to the actual component
-            }, 
+          {
+            path: "menu1-1",
+            component: () => import("@/views/nested/menu1/menu1-1/index.vue"),
+            name: "Menu1-1",
+            meta: { title: "Menu1-1" },
+          },
+          {
+            path: "menu1-2",
+            component: () => import("@/views/nested/menu1/menu1-2/index.vue"),
+            name: "Menu1-2",
+            meta: { title: "Menu1-2" },
+          },
+          {
+            path: "menu1-3",
+            component: () => import("@/views/nested/menu1/menu1-3/index.vue"),
+            name: "Menu1-3",
+            meta: { title: "Menu1-3" },
+          },
         ],
-    },
-    {
-        path: '/admin',
-        component: Layout,
-        name: 'admin',
-        meta: {
-            title: 'Admin',
-            icon: 'user',
-            roles: ["Administrator"]
-        },
-        children: [
-            {
-                path: 'grade-management',
-                name: 'GradeManagement',
-                component: () =>
-                    import('@/views/admin/grade-management/index'),
-                meta: {
-                    title: 'Grade Management',
-                    roles: permData['GradeManagement']['view'],
-                    icon: 'user'
-                }
-            },
-            {
-                path: 'user',
-                name: 'GradeManagement',
-                component: () =>
-                    import('@/views/admin/grade/index'),
-                meta: {
-                    title: 'User Management',
-                    roles: permData['GradeManagement']['view'],
-                    icon: 'el-icon-user'
-                }
-            },
-        ]
-    }, 
+      },
+      {
+        path: "menu2",
+        component: () => import("@/views/nested/menu2/index.vue"),
+        name: "Menu2",
+        meta: { title: "menu2" },
+      },
+    ],
+  },
+
+  {
+    path: "/:pathMatch(.*)*",
+    name: "not-found",
+    component: () => import("@/views/404.vue"),
+    hidden: true,
+  },
 ];
-// Async routes that require permission checks
-export const asyncRoutes = [
-    {
-        path: '/admin',
-        component: Layout,
-        name: 'admin',
-        meta: {
-            title: 'Admin',
-            icon: 'user',
-            roles: ["Administrator"]
-        },
-        children: [
-            {
-                path: 'grade-management',
-                name: 'GradeManagement',
-                component: () =>
-                    import('@/views/admin/grade-management/index'),
-                meta: {
-                    title: 'Grade Management',
-                    roles: permData['GradeManagement']['view'],
-                    icon: 'user'
-                }
-            },
-            {
-                path: 'user',
-                name: 'GradeManagement',
-                component: () =>
-                    import('@/views/admin/grade/index'),
-                meta: {
-                    title: 'User Management',
-                    roles: permData['GradeManagement']['view'],
-                    icon: 'el-icon-user'
-                }
-            },
-        ]
-    }, 
-];
+const createRoute = () =>
+  createRouter({
+    history: createWebHashHistory(import.meta.env.BASE_URL),
+    routes: constantRoutes,
+    scrollBehavior: () => ({ left: 0, top: 0 }),
+  });
 
-export const sigleRoutes = [];
+const router = createRoute();
 
-// Create the router using createRouter and createWebHistory
-const router = createRouter({
-    history: createWebHashHistory(), // Web history mode
-    routes: constantRoutes, // Set initial constant routes
-    debug: true,
-});
-
-// Reset router function for reloading routes
 export function resetRouter() {
-    const newRouter = createRouter({
-        history: createWebHashHistory(),
-        routes: constantRoutes, // Reset to the initial routes
-    });
-    router.matcher = newRouter.matcher; // Reset router matcher
+  const newRouter = createRoute();
+  router.matcher = newRouter.matcher; // reset router
 }
-
-export const awaitRoutes = constantRoutes;
 
 export default router;

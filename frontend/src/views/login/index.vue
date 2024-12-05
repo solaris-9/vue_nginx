@@ -1,19 +1,22 @@
 <template>
   <div class="login-container">
     <div class="login-left">
+      <!-- <img src="@/assets/customer_images/login.png" style="height: 100%;">
+      <img> -->
     </div>
     <div class="login-right">
       <div class="login-form-top">
+        
       </div>
       
       <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+
         <div class="title-container">
             <img class="title" src="@/assets/customer_images/nokia_logo.png" style="height: 30px;width: 120px;">
         </div>
         <el-form-item prop="username" style="background-color: transparent;">
           <span class="svg-container">
             <svg-icon icon-class="user" />
-                <!-- <font-awesome-icon :icon="['fas','user']" /> -->
           </span>
           <el-input
             ref="username"
@@ -47,7 +50,7 @@
         </el-form-item>
 
           <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;background: linear-gradient(to bottom right, #005aff, rgb(134, 22, 83));" @click.native.prevent="handleLogin">
-            Login Device Deployment Tool
+          Login Device Deployment Tool
           </el-button>
 
         <div class="tips">
@@ -69,40 +72,48 @@
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
-import { ElMessageBox } from 'element-plus'
+import { validUsername } from "@/utils/validate";
+import router from "@/router";
+import useStore from "@/store";
+const { user } = useStore();
 
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+        callback(new Error("Please enter the correct user name"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error("The password can not be less than 6 digits"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     return {
       loginForm: {
-        username: '',
-        password: ''
+        username: "",
+        password: "",
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        username: [
+          { required: true, trigger: "blur", validator: validateUsername },
+        ],
+        password: [
+          { required: true, trigger: "blur", validator: validatePassword },
+        ],
       },
       loading: false,
-      passwordType: 'password',
-      redirect: undefined
-    }
+      passwordType: "password",
+      redirect: undefined,
+    };
   },
+
+  
   watch: {
     $route: {
       handler: function(route) {
@@ -113,40 +124,37 @@ export default {
   },
   methods: {
     showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
+      if (this.passwordType === "password") {
+        this.passwordType = "";
       } else {
-        this.passwordType = 'password'
+        this.passwordType = "password";
       }
       this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
+        this.$refs.password.focus();
+      });
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+
+      this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-             this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch((error) => {
-            this.$message.error('Authentication failed. Caught exception.' + error.message ); // 显示错误信息  
-            this.loading = false
-          })
-        } 
-        else {
-          console.log('login error submit!!')
-          // this.$message.error('Input error. Please see error on the page' ); // 显示错误信息 
-          ElMessageBox.alert('Input error. Please see error on the page', 'Log in Failure', {  
-                    confirmButtonText: 'OK',  
-                    type: 'warning'  
-                    });
-          return false
+          this.loading = true;
+          user
+            .login(this.loginForm)
+            .then(() => {
+              router.push({ path: this.redirect || "/" });
+              this.loading = false;
+            })
+            .catch(() => {
+              this.loading = false;
+            });
+        } else {
+          console.log("login error submit!!");
+          return false;
         }
-      })
-    }
-  }
-}
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss">

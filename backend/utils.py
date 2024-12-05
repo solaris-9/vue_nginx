@@ -5,6 +5,16 @@ import pymysql
 import time, base64, hmac
 from django.conf import settings
 from dproject import settings as bs
+from sqlalchemy import create_engine, MetaData, text
+from urllib.parse import quote_plus
+import logging
+
+import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+import urllib.parse
+import smtplib
+from email.mime.text import MIMEText
+import pandas as pd
 
 class vue_response:
 
@@ -31,12 +41,6 @@ class analyzer_db:
 
   def __init__(self):
     self.conn = pymysql.connect(
-      # host = os.getenv('C_DB_HOST'),
-      # port = int(os.getenv('C_DB_PORT')),
-      # database = os.getenv('C_DB_NAME'),
-      # user = os.getenv('C_DB_USERNAME'),
-      # password = os.getenv('C_DB_PASSWORD'),
-      # charset = 'utf8mb4'
       host = bs.DATABASES['requestdb']['HOST'],
       port = bs.DATABASES['requestdb']['PORT'],
       database = bs.DATABASES['requestdb']['NAME'],
@@ -353,3 +357,160 @@ def tbl_index(tblname,SQLConn):
     else:
         strN = 0
     return strN
+
+class DatabaseConnector:
+    metadata = None
+    engine = None
+    connection = None
+    count = 0
+    _db = None
+    _cs = None
+    def __init__(self, db):
+        self._db = db
+        # if db == 'requestdb':
+        self._cs = 'mysql+pymysql://{}:{}@{}:{}/'.format(
+            bs.DATABASES[db]['USER'],
+            quote_plus(bs.DATABASES[db]['PASSWORD']),
+            bs.DATABASES[db]['HOST'],
+            bs.DATABASES[db]['PORT']
+          )
+        # elif db == 'customerdb':
+        #     self._cs = 'mysql+pymysql://{}:{}@{}:{}/'.format(
+        #         bs.DATABASES['customerdb']['USER'],
+        #         quote_plus(bs.DATABASES['customerdb']['PASSWORD']),
+        #         bs.DATABASES['customerdb']['HOST'],
+        #         bs.DATABASES['customerdb']['PORT']
+        #     )
+        # elif db == 'bbddb':
+        #     self._cs = 'mysql+pymysql://{}:{}@{}:{}/'.format(
+        #         bs.DATABASES['bbddb']['USER'],
+        #         quote_plus(bs.DATABASES['customerdb']['PASSWORD']),
+        #         bs.DATABASES['customerdb']['HOST'],
+        #         bs.DATABASES['customerdb']['PORT']
+        #     )
+
+        print(self._cs)
+        self.metadata = MetaData()
+        self.engine = create_engine('{}{}'.format(self._cs, self._db))
+        self.connection = self.engine.connect()
+    def read_table(self, name):
+        return pd.read_sql(name, self.engine)
+        pass
+    def read_query(self, query):
+        return pd.read_sql_query(query, self.engine)
+        pass
+    def execute(self, cmd):
+        try:
+            with self.engine.begin() as conn:
+                conn.execute(
+                    text(cmd)
+                )
+                conn.commit()
+        except Exception as e:
+            logging.getLogger(__name__).debug('!!! ERROR: {}'.format(e))
+        pass
+    
+
+
+class Jira:
+    session = None
+    u_auth = 'rest/auth/1/session'
+    server = None
+    def __init__(self, sever=None):
+        self.server = sever or 'https://jiradc2.ext.net.nokia.com/'
+        self._headers = {
+            "Content-Type": "application/json",
+            #'Authorization': 'Bearer MDExNDAwMTUxMjg1OkwRsKNWe/tAXMvZG9zdQ9UX9jqf'
+            'Authorization': 'Bearer NTkyMDExMzMyMzc4Ou3dyXx4r4uEJYLPEXtf0DpeQY8J'
+        }
+        requests.packages.urllib3.disable_warnings(
+            InsecureRequestWarning
+            )
+        self.session = requests.Session()
+        pass
+
+    def get(self, url, params = None):
+        u = '{}{}'.format(self.server, url)
+        if params:
+            u += '?%s' % urllib.parse.urlencode(params) 
+        logging.debug('url = %s' % u)
+        resp = self.session.get(
+            url=u,
+            headers=self._headers,
+            verify=False
+        )
+        logging.debug('resp = %s' % resp.text)
+        return  resp
+
+    def post(self, url, data):
+        resp = self.session.post(
+            '{}{}'.format(self.server, url), 
+            data=json.dumps(data), 
+            headers=self._headers,
+            verify = False
+        )
+        return resp.ok
+        pass
+        
+    def post_with_resp(self, url, data):
+        resp = self.session.post(
+            '{}{}'.format(self.server, url), 
+            data=json.dumps(data), 
+            headers=self._headers,
+            verify = False
+        )
+        return resp
+        pass
+        
+    def put(self, url, data):
+        resp = self.session.put(
+            '{}{}'.format(self.server, url), 
+            data=data, 
+            headers=self._headers,
+            verify=False
+        )
+        return resp.ok
+        pass
+    def put_with_resp(self, url, data):
+        resp = self.session.put(
+            '{}{}'.format(self.server, url), 
+            data=json.dumps(data), 
+            headers=self._headers,
+            verify=False
+        )
+        return resp
+        pass
+
+    def delete(self, url):
+        resp = self.session.delete(
+            '{}{}'.format(self.server, url),
+            headers=self._headers
+        )
+        return resp
+        pass
+
+
+
+def mail(tto, subject, body, cc=[]):
+    _from = 'bbd.tools@app.nokia-sbell.com'
+    _server = '172.24.146.133'
+
+    logging.debug(f'tto = {tto}')
+    if len(cc) == 0:
+       cc = [
+          'dongxu.zeng@nokia-sbell.com', 
+          #'dandan.yu@nokia-sbell.com'
+        ]
+    all_recipients = tto + cc
+    msg = MIMEText(body)
+    msg['Subject'] = subject
+    msg['From'] = _from
+    msg['To'] = ','.join(tto)
+    msg['Cc'] = ','.join(cc)
+    try:
+        with smtplib.SMTP(_server) as server:
+            server.sendmail(_from, all_recipients, msg.as_string())
+            pass
+    except Exception as e:
+       logging.debug(f'Error sending email: {e}')
+   

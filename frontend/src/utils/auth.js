@@ -1,37 +1,28 @@
 import Cookies from 'js-cookie'
-import store from '@/store'
 
-const TokenKey = 'vue_admin_template_token'
-const UserName = 'username'
-const EncodedAuth = 'encodedAuth'
+const TokenKey = 'devicedp_token'
+const InfoKey = 'user_info'
 
 export function getToken() {
-    return Cookies.get(TokenKey)
+  return Cookies.get(TokenKey)
 }
 
 export function setToken(token) {
-    var millisecond = new Date().getTime()
-    var expiresTime = new Date(millisecond + 60 * 1000 * 60 * 5)
-
-    return Cookies.set(TokenKey, token, {
-        expires: expiresTime,
-    })
-
-    // return Cookies.set(TokenKey, token)
+  return Cookies.set(TokenKey, token)
 }
 
 export function removeToken() {
-    return Cookies.remove(TokenKey)
+  return Cookies.remove(TokenKey)
 }
 
-export function getUserName() {
-    return store.getters.name
+export function getUserCookie() {
+  return Cookies.get(InfoKey)
 }
 
-export function getEncodedAuth() {
-    let cookie_name = Cookies.get(EncodedAuth)
-    if (cookie_name == null || cookie_name == 'none') {
-        cookie_name = ""
-    }
-    return cookie_name
+export function setUserCookie(info) {
+  return Cookies.set(InfoKey, info)
+}
+
+export function removeUserCookie() {
+  return Cookies.remove(InfoKey)
 }

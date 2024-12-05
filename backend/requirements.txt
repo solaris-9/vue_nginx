@@ -17,3 +17,4 @@ numpy
 sqlalchemy
 python-ldap
 pymysql
+xlrd

@@ -1,73 +1,70 @@
-import store from './store'
-import router from './router'
-import { awaitRoutes, sigleRoutes } from '@/router'
-import { ElMessage } from 'element-plus'
-import NProgress from 'nprogress' // progress bar
-import 'nprogress/nprogress.css' // progress bar style
-import { getToken } from '@/utils/auth' // get token from cookie
-import getPageTitle from '@/utils/get-page-title'
+import router from "@/router";
+import useStore from "@/store";
+import { ElMessage } from "element-plus";
+import NProgress from "nprogress"; // progress bar
+import "nprogress/nprogress.css"; // progress bar style
+import { getToken } from "@/utils/auth"; // get token from cookie
+import getPageTitle from "@/utils/get-page-title";
 
-NProgress.configure({ showSpinner: false }) // NProgress Configuration
+NProgress.configure({ showSpinner: false }); // NProgress Configuration
 
-const whiteList = ['/login'] // no redirect whitelist
+const whiteList = ["/login"]; // no redirect whitelist
 
-router.beforeEach(async(to, from, next) => {
-    // start progress bar
-    NProgress.start()
+router.beforeEach(async (to, from, next) => {
+  // start progress bar
+  NProgress.start();
 
-    // set page title
-    document.title = getPageTitle(to.meta.title)
+  const { user } = useStore();
 
-    // determine whether the user has logged in
-    const hasToken = getToken()
+  // set page title
+  document.title = getPageTitle(to.meta.title);
 
-    if (hasToken) {
-        if (to.path === '/login') {
-            // if is logged in, redirect to the home page
-            next({ path: '/' })
-            NProgress.done()
-        } else {
-            const hasGetUserInfo = store.getters.name
-            if (hasGetUserInfo) {
-                next()
-            } else {
-                try {
-                    // get user info
-                    let { roles } = await store.dispatch('user/getInfo')
-                    await store.dispatch('permission/getPermTable')
-                    let accessRoutes = await store.dispatch('permission/generateRoutes', [roles])
-                    
-                    // 单独页面根据人名配置权限
-                    const sigleUserName = ['xiama', 'dandany', 'yicx', 'nael']
-                    accessRoutes = sigleUserName.includes(store.getters.name)? sigleRoutes.concat(accessRoutes): accessRoutes
-                    router.options.routes = awaitRoutes.concat(accessRoutes)
+  // determine whether the user has logged in
+  const hasToken = getToken();
 
-                    router.addRoute(accessRoutes)
-                    next({...to, replace: true })
-                } catch (error) {
-                    // remove token and go to login page to re-login
-                    await store.dispatch('user/resetToken')
-                    ElMessage.error(error || 'Has Error')
-                    next(`/login?redirect=${to.path}`)
-                    NProgress.done()
-                }
-            }
-        }
+  if (hasToken) {
+    if (to.path === "/login") {
+      // if is logged in, redirect to the home page
+      next({ path: "/" });
+      NProgress.done();
     } else {
-        /* has no token*/
+      const hasGetUserInfo = user.name;
+      if (hasGetUserInfo) {
+        next();
+      } else {
+        try {
+          // get user info
 
-        if (whiteList.indexOf(to.path) !== -1) {
-            // in the free login whitelist, go directly
-            next()
-        } else {
-            // other pages that do not have permission to access are redirected to the login page.
-            next(`/login?redirect=${to.path}`)
-            NProgress.done()
+          await user.getUserInfo();
+          //await permission.getGradeList();
+          
+          next();
+        } catch (error) {
+
+          console.log("== router.beforeEach=====error",error);
+          // remove token and go to login page to re-login
+          await user.resetToken();
+          ElMessage.error(error || "Has Error");
+          next(`/login?redirect=${to.path}`);
+          NProgress.done();
         }
+      }
     }
-})
+  } else {
+    /* has no token*/
+
+    if (whiteList.indexOf(to.path) !== -1) {
+      // in the free login whitelist, go directly
+      next();
+    } else {
+      // other pages that do not have permission to access are redirected to the login page.
+      next(`/login?redirect=${to.path}`);
+      NProgress.done();
+    }
+  }
+});
 
 router.afterEach(() => {
-    // finish progress bar
-    NProgress.done()
-})
+  // finish progress bar
+  NProgress.done();
+});

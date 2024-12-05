@@ -9,7 +9,9 @@ import base64
 from django.http.response import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from utils import analyzer_db, create_token, tbl_index, strnum
+import logging
 
+logger = logging.getLogger('django')
 # LDAP_HOST = 'ldap://10.152.138.3:389'
 LDAP_HOST = 'ldap://10.158.52.11:389' 
 LDAP_BASE_DN = 'OU=Users,OU=UserAccounts,DC=nsn-intra,DC=net'
@@ -36,9 +38,9 @@ def ldap_auth(username, password):
 @csrf_exempt
 def login(request):  
   if 'HTTP_X_FORWARDED_FOR' in request.META:
-    print('--> rocklog login ip:', request.META.get('HTTP_X_FORWARDED_FOR'))
+    logger.info(f"--> rocklog login ip: {request.META.get('HTTP_X_FORWARDED_FOR')}")
   else:
-    print('--> rocklog login ip:', request.META.get('REMOTE_ADDR'))
+    logger.info(f"--> rocklog login ip: {request.META.get('REMOTE_ADDR')}")
   info = json.loads(request.body.decode('utf-8'))
   username = info['username']
   password = info['password']
@@ -146,10 +148,14 @@ def info(request):
 
 @csrf_exempt
 def logout(request):
-  token = request.COOKIES['vue_admin_template_token']
+  data = json.loads(request.body)
+  #token = request.COOKIES['vue_admin_template_token']
+  token = data["token"]
+  logger.info(f"token = {token}")
   sql = analyzer_db()  
   sLastupdate = datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')
   user_info = sql.search_user(key=token)
+  logger.info(f"user_info = {user_info}")
   username = user_info['username']
   log1 = sql.search_log(key1=username,key2='',key3='Logout',key4=sLastupdate,key5='logout success') 
   if not log1:

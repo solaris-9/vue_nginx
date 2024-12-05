@@ -1,23 +1,15 @@
-import Vue from 'vue'
-import { createStore }  from 'vuex'
-import getters from './getters'
-import app from './modules/app'
-import settings from './modules/settings'
-import user from './modules/user'
-import permission from './modules/permission'
-import tagsView from './modules/tagsView'
+import useAppStore from './modules/app'
+import useSettingStore from './modules/settings'
+import useUserStore from './modules/user'
+import useTagsViewStore from './modules/tagsView';
+//import usePermissionStore from './modules/permission';
 
-//Vue.use(Vuex)
-
-const store = createStore ({
-    modules: {
-        app,
-        settings,
-        user,
-        permission,
-        tagsView,
-    },
-    getters
-})
-
-export default store
+const useStore = () => ({
+    user: useUserStore(),
+    app: useAppStore(),
+    setting: useSettingStore(),
+    tagsView: useTagsViewStore(),
+    //permission: usePermissionStore()
+  });
+  
+  export default useStore;

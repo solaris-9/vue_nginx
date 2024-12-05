@@ -21,4 +21,4 @@ COPY . .
 
 EXPOSE 8002
 
-CMD ["npm", "run", "serve"]
+CMD ["npm", "run", "dev"]

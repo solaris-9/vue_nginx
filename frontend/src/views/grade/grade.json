@@ -1,0 +1,196 @@
+{
+    "formName": "Grade",
+    "functions": {
+        "add": "gradeAdd",
+        "edit": "gradeEdit",
+        "list": "gradeList",
+        "delete": "gradeDelete"
+    },
+    "fields": [
+        {
+            "label": "GID",
+            "type": "text",
+            "model": "gid",
+            "column": "GID",
+            "rules": [],
+            "comments": "",
+            "hidden": true
+        },
+        {
+            "label": "Grade",
+            "type": "text",
+            "model": "grade",
+            "column": "Grade",
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "layout": "horizontal"
+        },
+        {
+            "label": "Add",
+            "type": "select",
+            "model": "add",
+            "column": "Add",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No",
+                    "default": true
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "layout": "horizontal"
+        },
+        {
+            "label": "Edit",
+            "type": "select",
+            "model": "edit",
+            "column": "Edit",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No",
+                    "default": true
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "layout": "vertical"
+        },
+        {
+            "label": "Delete",
+            "type": "select",
+            "model": "delete",
+            "column": "Delete",
+            "tooltip": "If delete previlige granted.",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No",
+                    "default": true
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "layout": "vertical"
+        },
+        {
+            "label": "Search",
+            "type": "select",
+            "model": "search",
+            "column": "Search",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No",
+                    "default": true
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "layout": "vertical"
+        },
+        {
+            "label": "View",
+            "type": "select",
+            "model": "view",
+            "column": "View",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No",
+                    "default": true
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "layout": "vertical"
+        },
+        {
+            "label": "Export",
+            "type": "select",
+            "model": "export",
+            "column": "Export",
+            "tooltip": "If export previlige granted.",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No",
+                    "default": true
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "layout": "vertical",
+            "visibility": {
+                "dependsOn": ["view", "search"],
+                "condition": "(viewValue === 'Yes' && searchValue === 'Yes')"
+            }
+        },
+        {
+            "label": "Download",
+            "type": "select",
+            "model": "download",
+            "column": "Download",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No",
+                    "default": true
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "layout": "vertical",
+            "visibility": {
+                "dependsOn": ["export"],
+                "condition": "(exportValue === 'Yes')"
+            }
+        },
+        {
+            "label": "RecordTime",
+            "type": "text",
+            "model": "recordtime",
+            "column": "RecordTime",
+            "rules": [],
+            "comments": "",
+            "hidden": true
+        }
+    ]
+}

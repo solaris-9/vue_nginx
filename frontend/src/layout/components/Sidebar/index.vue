@@ -27,38 +27,48 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Logo from './Logo'
-import SidebarItem from './SidebarItem'
-import variables from '@/styles/variables.scss'
+import useStore from "@/store";
+import Logo from "./Logo.vue";
+import SidebarItem from "./SidebarItem.vue";
+import variables from "@/styles/variables.module.scss";
+import {
+  Document,
+  Menu as IconMenu,
+  Location,
+  Setting,
+} from "@element-plus/icons-vue";
 
 export default {
-  components: { SidebarItem, Logo },
+  components: { SidebarItem, Logo, Document, IconMenu, Location, Setting },
+
   computed: {
-    ...mapGetters([
-      'sidebar'
-    ]),
+    sidebar() {
+      const { app } = useStore();
+      return app.sidebar;
+    },
     routes() {
-      return this.$router.options.routes
+      return this.$router.options.routes;
     },
     activeMenu() {
-      const route = this.$route
-      const { meta, path } = route
+      const route = this.$route;
+      const { meta, path } = route;
       // if set path, the sidebar will highlight the path you set
       if (meta.activeMenu) {
-        return meta.activeMenu
+        return meta.activeMenu;
       }
-      return path
+      return path;
     },
     showLogo() {
-      return this.$store.state.settings.sidebarLogo
+      const { setting } = useStore();
+      return setting.sidebarLogo;
     },
     variables() {
-      return variables
+      
+      return variables;
     },
     isCollapse() {
-      return !this.sidebar.opened
-    }
-  }
-}
+      return !this.sidebar.opened;
+    },
+  },
+};
 </script>

@@ -14,7 +14,7 @@
         >
           <svg-icon
             v-if="onlyOneChild.meta && onlyOneChild.meta.icon"
-            icon-class="onlyOneChild.meta.icon"
+            :icon-class="onlyOneChild.meta.icon"
           />
           <template #title>
             {{ onlyOneChild.meta.title }}
@@ -113,13 +113,5 @@ export default {
   },
 };
 </script>
-<style scoped>
-  .el-menu-item {
-    height: 40px;
-    line-height: 40px;
-  }
-  div /deep/.el-submenu__title{
-    height: 40px;
-    line-height: 40px;
-  }
-</style>
+
+<style lang="scss" scoped></style>

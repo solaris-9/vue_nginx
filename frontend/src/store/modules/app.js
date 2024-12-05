@@ -1,48 +1,38 @@
-import Cookies from 'js-cookie'
+import Cookies from "js-cookie";
+import { defineStore } from 'pinia'
 
-const state = {
-  sidebar: {
-    opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
-    withoutAnimation: false
+const useAppStore = defineStore("app", {
+  state: () => {
+    return {
+      device: "desktop",
+      sidebar: {
+        opened: Cookies.get("sidebarStatus")
+          ? !!+Cookies.get("sidebarStatus")
+          : true,
+        withoutAnimation: false,
+      },
+    };
   },
-  device: 'desktop'
-}
+  actions: {
+    toggleSidebar() {
+      this.sidebar.opened = !this.sidebar.opened;
+      this.sidebar.withoutAnimation = false;
+      if (this.sidebar.opened) {
+        Cookies.set("sidebarStatus", 1);
+      } else {
+        Cookies.set("sidebarStatus", 0);
+      }
+    },
+    closeSideBar(withoutAnimation) {
+      this.sidebar.opened = false;
+      this.sidebar.withoutAnimation = withoutAnimation;
 
-const mutations = {
-  TOGGLE_SIDEBAR: state => {
-    state.sidebar.opened = !state.sidebar.opened
-    state.sidebar.withoutAnimation = false
-    if (state.sidebar.opened) {
-      Cookies.set('sidebarStatus', 1)
-    } else {
-      Cookies.set('sidebarStatus', 0)
-    }
+      Cookies.set("sidebarStatus", 0);
+    },
+    toggleDevice(device) {
+      this.device = device;
+    },
   },
-  CLOSE_SIDEBAR: (state, withoutAnimation) => {
-    Cookies.set('sidebarStatus', 0)
-    state.sidebar.opened = false
-    state.sidebar.withoutAnimation = withoutAnimation
-  },
-  TOGGLE_DEVICE: (state, device) => {
-    state.device = device
-  }
-}
+});
 
-const actions = {
-  toggleSideBar({ commit }) {
-    commit('TOGGLE_SIDEBAR')
-  },
-  closeSideBar({ commit }, { withoutAnimation }) {
-    commit('CLOSE_SIDEBAR', withoutAnimation)
-  },
-  toggleDevice({ commit }, device) {
-    commit('TOGGLE_DEVICE', device)
-  }
-}
-
-export default {
-  namespaced: true,
-  state,
-  mutations,
-  actions
-}
+export default useAppStore;

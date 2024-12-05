@@ -1,10 +1,10 @@
 import defaultSettings from '@/settings'
 
-const title = defaultSettings.title || 'BBD Device Deployment'
+const title = defaultSettings.title || 'Vue Admin Template'
 
 export default function getPageTitle(pageTitle) {
-    if (pageTitle) {
-        return `${title}`
-    }
-    return `${title}`
+  if (pageTitle) {
+    return `${pageTitle} - ${title}`
+  }
+  return `${title}`
 }

@@ -1,81 +1,83 @@
 <template>
   <div class="navbar">
-    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <hamburger
+      :is-active="sidebar.opened"
+      class="hamburger-container"
+      @toggleClick="toggleSideBar"
+    />
 
     <breadcrumb class="breadcrumb-container" />
-    
-    <div class="right-menu">
-      <span style="font-size: 16px;font-weight: 600;position:relative;top: -10px;margin-right: 25px;color: #005aff;">
-        BBD Device Deployment
-        <span style="color: #aaadb3;font-size: 12px;font-weight: 400;margin-left: 2px;">
-          V.{{ require('@/settings').version }}
-        </span>
-      </span>
-      <el-dropdown class="avatar-container" trigger="click">
-        
 
+    <div class="right-menu">
+      <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <!-- <el-badge :value="222" :max="99" :hidden="false" is-dot class="badge"> -->
-            <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
-          <!-- </el-badge>    -->
-          <i class="el-icon-caret-bottom" />
+          <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar" />
+          <CaretBottom style="width: 0.6em; height: 0.6em; margin-left: 5px" />
         </div>
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/">
-            <el-dropdown-item>
-              Home
+        <template #dropdown>
+          <el-dropdown-menu class="user-dropdown">
+            <router-link to="/">
+              <el-dropdown-item> Home </el-dropdown-item>
+            </router-link>
+            <a
+              target="_blank"
+              href="https://github.com/PanJiaChen/vue-admin-template/"
+            >
+              <el-dropdown-item>Github</el-dropdown-item>
+            </a>
+            <a
+              target="_blank"
+              href="https://panjiachen.github.io/vue-element-admin-site/#/"
+            >
+              <el-dropdown-item>Docs</el-dropdown-item>
+            </a>
+            <el-dropdown-item divided @click="logout">
+              <span style="display: block">Log Out</span>
             </el-dropdown-item>
-          </router-link>
-          <!-- <router-link to="/system/message">
-            <el-dropdown-item>
-              <el-badge :value="222" :max="99" :hidden="false">
-                <span style="display:block;">Message</span>
-              </el-badge>
-            </el-dropdown-item>
-          </router-link> -->
-          <!-- comment by rock
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a>
-          -->
-          <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">Log Out</span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
+          </el-dropdown-menu>
+        </template>
       </el-dropdown>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'
-import Hamburger from '@/components/Hamburger'
-
+import useStore from '@/store';
+import Breadcrumb from '@/components/Breadcrumb/index.vue';
+import Hamburger from '@/components/Hamburger/index.vue';
+import { CaretBottom } from '@element-plus/icons-vue';
+import { useRoute, useRouter } from 'vue-router';
 export default {
   components: {
     Breadcrumb,
-    Hamburger
+    Hamburger,
+    CaretBottom
   },
   computed: {
-    ...mapGetters([
-      'sidebar',
-      'avatar'
-    ])
+    sidebar() {
+      const { app } = useStore();
+      return app.sidebar;
+    },
+    avatar() {
+      const { user } = useStore();
+      return user.avatar;
+    }
   },
   methods: {
     toggleSideBar() {
-      this.$store.dispatch('app/toggleSideBar')
+      const { app } = useStore();
+
+      app.toggleSidebar();
     },
     async logout() {
-      await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      const { user, tagsView } = useStore();
+      await user.logout();
+      await tagsView.delAllViews();
+
+      this.$router.push(`/login?redirect=${this.$route.fullPath}`);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -83,20 +85,19 @@ export default {
   height: 50px;
   overflow: hidden;
   position: relative;
-  background: #f8f9fe;
-  // box-shadow: 0 1px 4px rgba(0,21,41,.08);
-  border: 0px solid #d8dce5;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
   .hamburger-container {
     line-height: 46px;
     height: 100%;
     float: left;
     cursor: pointer;
-    transition: background .3s;
-    -webkit-tap-highlight-color:transparent;
+    transition: background 0.3s;
+    -webkit-tap-highlight-color: transparent;
 
     &:hover {
-      background: rgba(0, 0, 0, .025)
+      background: rgba(0, 0, 0, 0.025);
     }
   }
 
@@ -108,7 +109,6 @@ export default {
     float: right;
     height: 100%;
     line-height: 50px;
-    // vertical-align: middle;
 
     &:focus {
       outline: none;
@@ -124,10 +124,10 @@ export default {
 
       &.hover-effect {
         cursor: pointer;
-        transition: background .3s;
+        transition: background 0.3s;
 
         &:hover {
-          background: rgba(0, 0, 0, .025)
+          background: rgba(0, 0, 0, 0.025);
         }
       }
     }
@@ -156,10 +156,5 @@ export default {
       }
     }
   }
-}
-</style>
-<style scoped>
-.badge {
-  margin-top: 2px;
 }
 </style>
