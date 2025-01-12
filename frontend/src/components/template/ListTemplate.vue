@@ -1,219 +1,231 @@
+<script setup lang="ts">
+import { ref, reactive, onMounted, onBeforeUnmount } from "vue";
+import { ElMessage } from "element-plus";
+import { Plus, Delete, Document } from "@element-plus/icons-vue";
+import useStore from "@/store";
+import EventBus from "@/utils/eventBus";
+import { apiRequest } from "@/api/table";
+import "ag-grid-enterprise";
+
+// Props
+const props = defineProps({
+    schema: {
+        type: Object,
+        required: true
+    }
+});
+
+// State
+const user = useStore().user;
+const mail = user.getUser().mail;
+const keyColumn = ref("");
+const rowData = ref([]);
+const columnDefs = ref([]);
+const isLoading = ref(true);
+const gridOptions = reactive({
+    onCellDoubleClicked: handleCellDoubleClick,
+    autoSizeStrategy: {
+        type: 'fitCellContents'
+    },
+});
+const rowSelection = {mode: "multiRow"};
+const defaultColDef = {
+    menuTabs: ["filterMenuTab", "columnsMenuTab", "generalMenuTab"],
+    sortable: true,
+    filter: true,
+    resizable: true,
+};
+
+const actions = [
+    { name: "add", label: "Add", icon: Plus, type: "success", permission: "add", handler: handleAdd },
+    { name: "delete", label: "Delete", icon: Delete, type: "danger", permission: "delete", handler: handleDelete },
+    { name: "export", label: "Export", icon: Document, type: "primary", permission: "export", handler: handleExport }
+];
+
+function checkAction(action) {
+    if (action.name === 'export') {
+        return true;
+    }
+    return props.schema.functions[action.name] ? true : false
+}
+
+// Methods
+async function fetchData() {
+    isLoading.value = true;
+    try {
+        console.log('list api = ',  props.schema.functions.list)
+        const response = await apiRequest(props.schema.functions.list, { type: "all" });
+        columnDefs.value = generateColumnDefs();
+        rowData.value = response.data.items;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    } finally {
+        isLoading.value = false;
+    }
+}
+
+function generateColumnDefs() {
+    // const resp = props.schema.fields
+    //     .filter((field) => field.model)
+    //     .map(field => ({
+    //         field: field.model,
+    //         headerName: field.column,
+    //         headerTooltip: field.column,
+    //         filterParams: { applyMiniFilterWhileTyping: true },
+    //         autoHeight: true,
+    //         wrapText: false,
+    //         hide: field.listHidden || false,
+    //     }));
+    const resp = [];
+    props.schema.fields.forEach(field => {
+        if (field.model) {
+            if (field.type === 'group') {
+                field.fields.forEach(f => {
+                    resp.push(
+                        {
+                            field: f.model,
+                            headerName: f.column,
+                            headerTooltip: f.column,
+                            filterParams: { applyMiniFilterWhileTyping: true },
+                            autoHeight: true,
+                            wrapText: false,
+                            hide: field.listHidden || false,
+                        }        
+                    );
+                });
+            } else {
+                resp.push(
+                    {
+                        field: field.model,
+                        headerName: field.column,
+                        headerTooltip: field.column,
+                        filterParams: { applyMiniFilterWhileTyping: true },
+                        autoHeight: true,
+                        wrapText: false,
+                        hide: field.listHidden || false,
+                    }        
+                );
+            }
+        }
+    });
+    console.log("resp = ", resp)
+    return resp
+}
+
+function handleCellDoubleClick(cell) {
+    if (!user.checkPermission("edit")) return;
+
+    //console.log(props.schema.functions);
+    EventBus.emit(props.schema.notifications.switch, {
+        options: "edit",
+        comName: "FormTemplate",
+        rowData: { ...cell.data }
+    });
+}
+
+function handleAdd() {
+    EventBus.emit(props.schema.notifications.switch, { options: "add", comName: "ListTemplate", rowData: {} });
+}
+
+async function handleDelete() {
+    const selectedRows = gridOptions.api.getSelectedRows();
+    console.log("selectedRows = ", selectedRows)
+    if (!selectedRows.length) {
+        ElMessage.warning("No rows selected for deletion");
+        return;
+    }
+
+    try {
+        const idsToDelete = selectedRows.map(row => row[keyColumn.value]).join(",");
+        await apiRequest(props.schema.functions.delete, { id: idsToDelete, mail: mail });
+        EventBus.emit(props.schema.notifications.refresh);
+    } catch (error) {
+        console.error("Error deleting rows:", error);
+        ElMessage.error("Failed to delete records");
+    }
+}
+
+function handleExport() {
+    gridOptions.api.exportDataAsExcel({ fileName: props.schema.formName });
+}
+
+function onGridReady(params) {
+    gridOptions.api = params.api;
+    gridOptions.columnApi = params.columnApi;
+    params.api.sizeColumnsToFit();
+}
+
+function getKeyColumn() {
+    const fieldWithKey  = props.schema.fields.find((field) => field.key === true);
+    keyColumn.value = fieldWithKey ? fieldWithKey.model : "";
+    console.log("keyColumn = ", keyColumn.value)
+}
+
+// Lifecycle Hooks
+onMounted(() => {
+    EventBus.on(props.schema.notifications.refresh, fetchData);
+    fetchData();
+    getKeyColumn();
+    if (props.schema.skipAutoResize) {
+        gridOptions.autoSizeStrategy.type = "fitProvidedWidth";
+    }
+    console.log("gridOptions = ", gridOptions)
+});
+
+onBeforeUnmount(() => {
+    EventBus.off(props.schema.notifications.refresh, fetchData);
+});
+</script>
+
 <template>
-    <div style="height:100%; padding: 10px;">
+    <div class="list-template">
         <!-- Actions Row -->
-        <el-row style="margin-bottom: 10px;">
-            <el-button v-if="user.checkPermission('add')" type="success" @click="onBtAdd">
-                <el-icon><Plus /></el-icon> Add
-            </el-button>
-            <el-button v-if="user.checkPermission('delete')" type="danger" @click="onBtDelete">
-                <el-icon><Delete /></el-icon> Delete
-            </el-button>
-            <el-button v-if="user.checkPermission('export')" type="primary" @click="onExport">
-                <el-icon><Document /></el-icon> Export
-            </el-button>
+        <el-row class="action-buttons">
+            <template v-for="action in actions" :key="action.name">
+                <el-button
+                    v-if="user.checkPermission(action.permission) && checkAction(action)"
+                    :type="action.type"
+                    @click="action.handler"
+                >
+                    <el-icon>
+                        <component :is="action.icon" />
+                    </el-icon> 
+                    {{ action.label }}
+                    </el-button>
+            </template>
         </el-row>
-        <!-- <div v-if="isLoading" class="loading-spinner">Loading...</div> -->
+
         <!-- Grade Table -->
         <ag-grid-vue 
+            class="table ag-theme-alpine"
             style="width: 100%; height: 80vh;" 
-            class="table ag-theme-alpine" 
-            :defaultColDef="agListTemplate.defaultColDef" 
+            :defaultColDef="defaultColDef"
             :rowHeight="30" 
-            :columnDefs="agListTemplate.columnDefs" 
-            :rowData="agListTemplate.rowData" 
+            :columnDefs="columnDefs" 
+            :rowData="rowData" 
             :pagination="true"
-            :paginationPageSize="20" 
+            :paginationAutoPageSize="true" 
             :floatingFilter="true" 
-            :rowSelection="agListTemplate.rowSelection" 
+            :rowSelection="rowSelection" 
             :gridOptions="gridOptions" 
-            :cellSelection="false" 
-            :allowContextMenuWithControlKey="true" 
-            @grid-ready="onGridReady" 
+            @grid-ready="onGridReady"
+            :loading="isLoading"
         />
     </div>
 </template>
 
-<script>
-import { ref, reactive, onMounted, onBeforeUnmount } from "vue";
-import { apiRequest } from "@/api/table";
-//import { getGridData } from "@/api/table";
-import { ElMessage } from "element-plus";
-import useStore from "@/store";
-import EventBus from "@/utils/eventBus";
-import "ag-grid-enterprise";
-import { Plus, Delete, Document } from "@element-plus/icons-vue";
-
-export default {
-    name: "ListTemplate",
-    props: {
-        schema: {
-            type: Object,
-            required: true
-        }
-    },
-    components: {
-        Plus,
-        Delete,
-        Document
-    },
-    setup(props) {
-        const agListTemplate = reactive({
-            gridApi: null,
-            columnApi: null,
-            rowSelection: { mode: "multiRow" },
-            defaultColDef: {
-                menuTabs: ["filterMenuTab", "columnsMenuTab", "generalMenuTab"],
-                sortable: true,
-                filter: true,
-                resizable: true,
-            },
-            columnDefs: null,
-            rowData: null,
-        });
-        const isLoading = ref(true);
-        const agData = ref([]);
-        const user = useStore().user;
-        const gridOptions = reactive({
-            onCellDoubleClicked: (cell) => onCellDoubleClicked(cell),
-        });
-
-        // Fetch grid data
-        const getData = async () => {
-            isLoading.value = true;
-            try {
-                const payload = { type: "all" };
-                console.log('Fetching data...', payload);
-                const response = await apiRequest(props.schema.functions.list, payload);
-
-                //const [columnDefs, rowData] = getGridData(response.data.items);
-                const columnDefs = getColumnDef();
-                console.log("columnDefs = ", columnDefs);
-                console.log("response.data.items = ", response.data.items);
-                
-                agListTemplate.columnDefs = columnDefs;
-                agListTemplate.rowData = response.data.items;
-                agData.value = response.data.items;
-            } catch (error) {
-                console.error(error);
-            } finally {
-                isLoading.value = false;
-            }
-        };
-
-        const getColumnDef = () => {
-            let columnDefs = [];
-            props.schema.fields.forEach(field => {
-                let item = { 
-                    field: field.column, 
-                    headerName: field.column,
-                    headerTooltip: field.column, 
-                    filterParams: { applyMiniFilterWhileTyping: true }, 
-                    autoHeight: true, 
-                    wrapText: true,
-                };
-                if (field.hidden) {
-                    item.hide = true;
-                };
-                columnDefs.push(item);
-            });
-            return columnDefs;
-        };
-
-        // Cell double-click handler
-        const onCellDoubleClicked = (cell) => {
-            if (!user.checkPermission("edit")) return;
-
-            const rowData = { ...cell.data };
-
-            const params = {
-                options: "edit",
-                comName: "FormTemplate",
-                rowData,
-            };
-            EventBus.emit("passfunction", params);
-        };
-
-        const onBtAdd = () => {
-            const rowData = {};
-            const params = { options: "add", comName: "ListTemplate", rowData };
-            EventBus.emit("passfunction", params);
-        };
-
-        const onBtDelete = async () => {
-            const selectedRows = agListTemplate.gridApi.getSelectedRows();
-            if (!selectedRows.length) {
-                ElMessage.warn("No rows selected for deletion");
-                return;
-            }
-
-            try {
-                const deleteRowId = selectedRows.map((item) => item.GID).join(",");
-                console.log("deleteRowId: ", deleteRowId);
-
-                const payload = { 
-                    id: deleteRowId,
-                    mail: user.info.mail
-                };
-                console.log("payload = ", payload)
-                const response = await apiRequest(props.schema.functions.delete, payload);
-                console.log("API response: ", response);
-
-                EventBus.emit("refreshGradeTable", {});
-            } catch (error) {
-                console.log("API failed: ", error);
-                ElMessage.error(
-                    "Record deletion failed!"
-                );
-            };
-        };
-
-        const onExport = () => {
-            const param = { fileName: props.schema.formName };
-            agListTemplate.gridApi.exportDataAsExcel(param);
-        };
-
-        const onGridReady = (params) => {
-            agListTemplate.gridApi = params.api;
-            agListTemplate.columnApi = params.columnApi;
-            agListTemplate.gridApi.sizeColumnsToFit();
-        };
-
-        onMounted(() => {
-            console.log("onMounted ...")
-            //console.log(route.name);
-            EventBus.on("refreshGradeTable", getData);
-            getData();
-        });
-
-        onBeforeUnmount(() => {
-            EventBus.off("refreshGradeTable", getData);
-        });
-
-        return {
-            agListTemplate,
-            agData,
-            user,
-            gridOptions,
-            onBtAdd,
-            onBtDelete,
-            onExport,
-            onGridReady,
-            isLoading,
-            Plus,
-            Delete,
-            Document
-        };
-    },
-};
-</script>
 
 <style scoped>
-.el-popover .el-button:hover {
-    color: blue;
-    font-weight: 1000;
+.list-template {
+    /* height: 100%; */
+    height: calc(100vh - 155px);
+    padding: 10px;
 }
-
-.filter-item {
-    margin: 0px 10px;
+.action-buttons {
+    margin-bottom: 10px;
+}
+.table {
+    width: 100%;
+    height: 80vh;
 }
 </style>

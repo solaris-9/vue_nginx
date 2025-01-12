@@ -1,0 +1,160 @@
+{
+    "formName": "CortecaPlatform",
+    "functions": {
+        "add": "platformAdd",
+        "edit": "platformEdit",
+        "delete": "platformDelete",
+        "list": "platformList"
+    },
+    "notifications": {
+        "switch": "switchPlatform",
+        "refresh": "refreshPlatform"
+    },
+    "fields": [
+        {
+            "label": "ID",
+            "type": "text",
+            "model": "ID",
+            "column": "ID",
+            "rules": [],
+            "comments": "",
+            "hidden": true,
+            "listHidden": false,
+            "key": true
+        },
+        {
+            "label": "Platform",
+            "type": "text",
+            "model": "field_platform",
+            "column": "Platform",
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24
+        },
+        {
+            "label": "Type",
+            "type": "select",
+            "model": "field_type",
+            "column": "Type",
+            "options": [
+                {
+                    "label": "Single Tenant",
+                    "value": "Single Tenant"
+                },
+                {
+                    "label": "Multitenant",
+                    "value": "Multitenant"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24
+        },
+        {
+            "label": "Customer/Trials",
+            "type": "select",
+            "model": "field_customer_trials",
+            "column": "Customer/Trials",
+            "options": [
+                {
+                    "label": "Customer",
+                    "value": "Customer"
+                },
+                {
+                    "label": "Customer Trials",
+                    "value": "Customer Trials"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24
+        },
+        {
+            "label": "Public Cloud",
+            "type": "select",
+            "model": "field_public_cloud",
+            "column": "Public Cloud",
+            "options": [
+                {
+                    "label": "AWS",
+                    "value": "AWS"
+                },
+                {
+                    "label": "GCP",
+                    "value": "GCP"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24
+        },
+        {
+            "label": "Cloud SW",
+            "type": "text",
+            "model": "field_cloud_sw",
+            "column": "Cloud SW",
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24
+        },
+        {
+            "label": "Region",
+            "type": "text",
+            "model": "field_region",
+            "column": "Region",
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24
+        },
+        {
+            "label": "Creator",
+            "type": "text",
+            "model": "creator",
+            "column": "Creator",
+            "rules": [""],
+            "comments": "",
+            "hidden": true,
+            "listHidden": true,
+            "span": 24
+        },
+        {
+            "label": "Createon",
+            "type": "text",
+            "model": "createon",
+            "column": "Createon",
+            "rules": [""],
+            "comments": "",
+            "hidden": true,
+            "listHidden": true,
+            "span": 24
+        },
+        {
+            "label": "Modifier",
+            "type": "text",
+            "model": "modifier",
+            "column": "Modifier",
+            "rules": [""],
+            "comments": "",
+            "hidden": true,
+            "listHidden": true,
+            "span": 24
+        },
+        {
+            "label": "Modifiedon",
+            "type": "text",
+            "model": "modifiedon",
+            "column": "Modifiedon",
+            "rules": [""],
+            "comments": "",
+            "hidden": true,
+            "listHidden": true,
+            "span": 24
+        }
+    ]
+}

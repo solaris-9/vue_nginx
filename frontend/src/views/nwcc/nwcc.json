@@ -1,0 +1,735 @@
+{
+    "formName": "NWCC",
+    "functions": {
+        "add": "nwccAdd",
+        "edit": "nwccEdit",
+        "list": "NwccList",
+        "delete": "nwccDelete"
+    },
+    "notifications": {
+        "switch": "nwccSwitch",
+        "refresh": "nwccRefresh"
+    },
+    "preload": {
+        "customerData": { "api": "customerList", "type": "array" },
+        "contactsData": { "api": "contactsList", "type": "array" },
+        "countryData": { "api": "countryList", "type": "array" },
+        "hostingData": { "api": "hostingList", "type": "array" }
+      },
+    "header": {
+        "fields": [
+        ]      
+    },
+    "fields": [
+        {
+            "label": "ID",
+            "type": "text",
+            "model": "ID",
+            "column": "Id",
+            "rules": [],
+            "comments": "",
+            "hidden": false,
+            "listHidden": false,
+            "key": true,
+            "span": 8,
+            "header": true,
+            "disabled": true
+        },
+        {
+            "label": "Status",
+            "type": "select",
+            "model": "field_status",
+            "column": "Status",
+            "options": [
+                {
+                    "label": "New",
+                    "value": "New",
+                    "default": true
+                },
+                {
+                    "label": "Accepted",
+                    "value": "Accepted"
+                },
+                {
+                    "label": "Implemented",
+                    "value": "Implemented"
+                },
+                {
+                    "label": "Query",
+                    "value": "Query"
+                },
+                {
+                    "label": "Rejected",
+                    "value": "Rejected"
+                },
+                {
+                    "label": "Closed",
+                    "value": "Closed"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 8,
+            "header": true,
+            "change": {
+                "func": "onStatusChange",
+                "message": ""
+            }
+        },
+        {
+            "label": "Assignee",
+            "type": "text",
+            "model": "field_assignee",
+            "column": "Assignee",
+            "dependsOn": [
+                {
+                    "field": "field_customer",
+                    "conditionalField": "field_status",
+                    "by": {
+                        "attribute": "field_customer_name",
+                        "source": "contactsData",
+                        "conditionalKeys": {
+                            "New": {
+                                "field": "field_nwf_plm",
+                                "default": ""
+                            },
+                            "Accepted": {
+                                "field": "field_local_contacts",
+                                "default": "jaisankar.gunasekaran@nokia.com"
+                            },
+                            "Implemented": {
+                                "field": "field_nwf_plm",
+                                "default": ""
+                            },
+                            "Query": {
+                                "field": "",
+                                "default": ""
+                            },
+                            "Rejected": {
+                                "field": "",
+                                "default": ""
+                            },
+                            "Closed": {
+                                "field": "",
+                                "default": ""
+                            }
+                        },
+                        "defaultKey": "field_nwf_plm"
+                    }
+                }
+            ],
+            "onInput": "onAssigneeInput",
+            "rules": [],
+            "comments": "",
+            "hidden": false,
+            "span": 8,
+            "header": true
+        },
+        {
+            "label": "Customer",
+            "type": "select",
+            "model": "field_customer",
+            "column": "Customer",
+            "options": [],
+            "optionSource": {
+                "data": "customerData",
+                "field": "customer"
+            },
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 12
+        },
+        {
+            "label": "Add New Customer",
+            "type": "button",
+            "onClick": "onCustomerAddClick",
+            "class": "modal-button",
+            "hidden": false,
+            "span": 12
+        },
+        {
+            "label": "Customer Id",
+            "type": "text",
+            "model": "field_customer_id",
+            "column": "Customer Id",
+            "dependsOn": [
+                {
+                    "field": "field_customer",
+                    "from": {
+                        "attribute": "customer",
+                        "source": "customerData",
+                        "key": "cid"
+                    }
+                }
+            ],
+            "rules": [""],
+            "comments": "",
+            "hidden": false,
+            "listHidden": true,
+            "span": 24,
+            "disabled": true
+        },
+        {
+            "label": "Key",
+            "type": "text",
+            "model": "field_jira_id",
+            "column": "Key",
+            "dependsOn": [
+                {
+                    "field": "field_customer",
+                    "from": {
+                        "attribute": "customer",
+                        "source": "customerData",
+                        "key": "key"
+                    }
+                }
+            ],
+            "rules": [],
+            "comments": "",
+            "hidden": true,
+            "listHidden": true,
+            "span": 24
+        },
+        {
+            "label": "Country",
+            "type": "select",
+            "model": "field_country",
+            "column": "Country",
+            "rules": ["required"],
+            "optionSource": {
+                "data": "countryData",
+                "field": "country"
+            },
+            "comments": "",
+            "hidden": false,
+            "span": 24
+        },
+        {
+            "label": "Will this Home Controller deployment be hosted by Nokia or hosted by the CSP?",
+            "type": "select",
+            "model": "field_hosted_by",
+            "column": "Hosted By",
+            "options": [
+                {
+                    "label": "Nokia hosted",
+                    "value": "Nokia hosted"
+                },
+                {
+                    "label": "CSP hosted",
+                    "value": "CSP hosted"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "change": {
+                "func": "onHostedByChange",
+                "message": "Please contact the FN professional services team!"
+            }
+        },
+        {
+            "label": "Which Home Controller license tier is requested?",
+            "type": "select",
+            "model": "field_tenant_type",
+            "column": "Tenent Type",
+            "options": [
+                {
+                    "label": "L1",
+                    "value": "L1"
+                },
+                {
+                    "label": "L1+L2",
+                    "value": "L1+L2"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24
+        },
+        {
+            "label": "What type of Home Controller instance is requested?",
+            "type": "select",
+            "model": "field_hc_type",
+            "column": "Home Controller Type",
+            "options": [
+                {
+                    "label": "Dedicated instance",
+                    "value": "Dedicated instance"
+                },
+                {
+                    "label": "Multi-tenant instance",
+                    "value": "Multi-tenant instance"
+                },
+                {
+                    "label": "Trial instance",
+                    "value": "Trial instance"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24
+        },
+        {
+            "label": "How long is this enant expected to be alive?",
+            "type": "date",
+            "model": "field_alive_date",
+            "column": "Alive Date",
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_hc_type"],
+                "condition": "(field_hc_typeValue === 'Dedicated instance')"
+            }
+        },
+        {
+            "label": "Which hosting platform is requested?",
+            "type": "select",
+            "model": "field_hosting_platform",
+            "column": "Hosting Platform",
+            "options": [
+                {
+                    "label": "GCP",
+                    "value": "GCP",
+                    "default": true
+                },
+                {
+                    "label": "AWS",
+                    "value": "AWS"
+                },
+                {
+                    "label": "Azure",
+                    "value": "Azure"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 12,
+            "visibility": {
+                "dependsOn": ["field_hc_type"],
+                "condition": "(field_hc_typeValue === 'Dedicated instance')"
+            }
+        },
+        {
+            "label": "Hosting region",
+            "type": "select",
+            "model": "field_dedicated_region",
+            "column": "Hosting Region",
+            "dependsOn": [
+                {
+                    "field": "field_hosting_platform",
+                    "filter": {
+                        "attribute": "cloud",
+                        "mapFrom": "hostingData"
+                    },
+                    "mapToOption": "{region}"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 12,
+            "visibility": {
+                "dependsOn": ["field_hc_type"],
+                "condition": "(field_hc_typeValue === 'Dedicated instance')"
+            }
+        },
+        {
+            "label": "Was legal clearance obtained of this customer to host data outside of the country?",
+            "type": "select",
+            "model": "field_dedicated_legal_clearance",
+            "column": "Dedicated Legal Clearance",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_hc_type"],
+                "condition": "(field_hc_typeValue === 'Dedicated instance')"
+            },
+            "change": {
+                "func": "onDedicatedLegalChange",
+                "message": "Please contact the FN professional services team!"
+            }
+        },
+        {
+            "label": "Hosting region",
+            "type": "select",
+            "model": "field_multi_region",
+            "column": "Multi Region",
+            "options": [
+                {
+                    "label": "North Virginia (NAR/LATAM/Canada)",
+                    "value": "North Virginia (NAR/LATAM/Canada)"
+                },
+                {
+                    "label": "Ireland (EMEA, APAC, Oceania)",
+                    "value": "Ireland (EMEA, APAC, Oceania)"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 12,
+            "visibility": {
+                "dependsOn": ["field_hc_type"],
+                "condition": "(field_hc_typeValue === 'Multi-tenant instance')"
+            }
+        },
+        {
+            "label": "(If applies) Was legal clearance obtained of this customer to host data outside of the country?",
+            "type": "select",
+            "model": "field_multi_legal_clearance",
+            "column": "Multi Legal Clearance",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 12,
+            "visibility": {
+                "dependsOn": ["field_hc_type"],
+                "condition": "(field_hc_typeValue === 'Multi-tenant instance')"
+            },
+            "change": {
+                "func": "onMultiLegalChange",
+                "message": "Please contact the FN professional services team!"
+            }
+        },
+        {
+            "label": "Do you want a dedicated or multi-tenant trial instance?",
+            "type": "select",
+            "model": "field_trial_type",
+            "column": "Trial Type",
+            "options": [
+                {
+                    "label": "Dedicated",
+                    "value": "Dedicated"
+                },
+                {
+                    "label": "Multi-tenant",
+                    "value": "Multi-tenant"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_hc_type"],
+                "condition": "(field_hc_typeValue === 'Trial instance')"
+            }
+        },
+        {
+            "label": "Tenant on which instance?",
+            "type": "select",
+            "model": "field_trial_tenant",
+            "column": "Trial Tenent",
+            "options": [
+                {
+                    "label": "Demo2",
+                    "value": "Demo2"
+                },
+                {
+                    "label": "Other",
+                    "value": "Other"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 12,
+            "visibility": {
+                "dependsOn": ["field_hc_type", "field_trial_type"],
+                "condition": "(field_hc_typeValue === 'Trial instance' && field_trial_typeValue === 'Multi-tenant')"
+            }
+        },
+        {
+            "label": "Please input tenant instance",
+            "type": "text",
+            "model": "field_trial_other_tenant",
+            "column": "Trial Other Tenent",
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 12,
+            "visibility": {
+                "dependsOn": ["field_hc_type", "field_trial_type", "field_trial_tenant"],
+                "condition": "(field_hc_typeValue === 'Trial instance' && field_trial_typeValue === 'Multi-tenant' && field_trial_tenantValue === 'Other')"
+            }
+        },
+        {
+            "label": "Duration of the trial",
+            "type": "date",
+            "model": "field_trial_date",
+            "column": "Trial Date",
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 12,
+            "visibility": {
+                "dependsOn": ["field_hc_type"],
+                "condition": "(field_hc_typeValue === 'Trial instance')"
+            }
+        },
+        {
+            "label": "Number of devices planned in the trial",
+            "type": "text",
+            "model": "field_trial_device_number",
+            "column": "Trial Device Number",
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 12,
+            "visibility": {
+                "dependsOn": ["field_hc_type"],
+                "condition": "(field_hc_typeValue === 'Trial instance')"
+            }
+        },
+        {
+            "label": "Attach the trial test plan and schedule",
+            "type": "file",
+            "accept": ".pdf,.doc,.docx",
+            "downloadLabel": "Download File",
+            "model": "field_trial_test_plan",
+            "column": "Trial Test Plan",
+            "rules": [],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_hc_type"],
+                "condition": "(field_hc_typeValue === 'Trial instance')"
+            }
+        },
+        {
+            "label": "Total number of devices expected to be managed by the Home Controller",
+            "type": "group",
+            "model": "field_3_month",
+            "fields": [
+                {"model": "field_3_month", "label": "In 3 months", "column": "3 Months"},
+                {"model": "field_6_month", "label": "In 6 months", "column": "6 Months"},
+                {"model": "field_12_month", "label": "In 12 months", "column": "12 Months"}
+            ],
+            "column": "NA",
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance"],
+                "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes'))"
+            }
+        },
+        {
+            "label": "Committed 1st year volume",
+            "type": "text",
+            "model": "field_committed_1st_year",
+            "column": "Committed 1st Year Volume",
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance"],
+                "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes'))"
+            }
+        },
+        {
+            "label": "Do you need Nokia to host a TR143 server for FCC compliance (RDOF) (only applicable to US customers)",
+            "type": "select",
+            "model": "field_fcc_compilance",
+            "column": "FCC Compliance",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance"],
+                "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes'))"
+            }
+        },
+        {
+            "label": "What is the required service level agreement?",
+            "type": "select",
+            "model": "field_support_level",
+            "column": "Service Level",
+            "options": [
+                {
+                    "label": "Premium",
+                    "value": "Premium"
+                },
+                {
+                    "label": "Standard",
+                    "value": "Standard"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance"],
+                "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes'))"
+            }
+        },
+        {
+            "label": "Provide the Region and Area where devices will be deployed (L2 only)",
+            "type": "text",
+            "model": "field_deploy_region",
+            "column": "Deploy Region",
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance"],
+                "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes'))"
+            }
+        },
+        {
+            "label": "Do  you want HDM integration in this Home Controller instance?",
+            "type": "select",
+            "model": "field_integration_corteca",
+            "column": "HDM Integration",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 12,
+            "visibility": {
+                "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance"],
+                "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes') || field_hc_typeValue === 'Trial instance')"
+            }
+        },
+        {
+            "label": "Please share the PO number for HDM licenses(not required for trial instance)",
+            "type": "text",
+            "model": "field_hdm_po",
+            "column": "HDM PO",
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 12,
+            "visibility": {
+                "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance", "field_integration_corteca"],
+                "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes') || field_hc_typeValue === 'Trial instance') && field_integration_cortecaValue === 'Yes'"
+            }
+        },
+        {
+            "label": "Advance device fingerprinting",
+            "type": "select",
+            "model": "field_advance_fingerprinting",
+            "column": "Advanced Fingerprinting",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance"],
+                "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes') || field_hc_typeValue === 'Trial instance')"
+            }
+        },
+        {
+            "label": "Provide the email address of the customer responsible for this Home Controller.",
+            "type": "text",
+            "model": "field_customer_responsible",
+            "column": "Customer Contact",
+            "rules": ["required", "mail"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance"],
+                "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes') || field_hc_typeValue === 'Trial instance')"
+            }
+        },
+        {
+            "label": "Provide the WBS number to which Home Controller licenses can be billed to.",
+            "type": "text",
+            "model": "field_wbs_billing",
+            "column": "WBS Number",
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance"],
+                "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes') || field_hc_typeValue === 'Trial instance')"
+            }
+        },
+        {
+            "label": "Additional",
+            "type": "textarea",
+            "model": "field_additional",
+            "column": "Additional",
+            "rules": [],
+            "comments": "",
+            "hidden": false,
+            "listHidden": false,
+            "span": 24
+        },
+        {
+            "label": "Do you want to add a Nokia setup to be managed by this home controller?",
+            "type": "button",
+            "onClick": "onAddDeviceDPClick",
+            "class": "add-devicedp",
+            "hidden": false,
+            "span": 24
+        }
+    ]
+}

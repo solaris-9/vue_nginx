@@ -35,7 +35,7 @@ export const constantRoutes = [
         path: "dashboard",
         name: "Dashboard",
         component: () => import("@/views/dashboard/index.vue"),
-        meta: { title: "Home", icon: "dashboard" },
+        meta: { title: "Home", icon: "home" },
       },
     ],
   },
@@ -44,14 +44,33 @@ export const constantRoutes = [
     path: "/tools",
     component: Layout,
     redirect: "/tools/devicedp",
-    name: "Tools",
-    meta: { title: "Tools", icon: "dashboard" },
+    name: "Home",
+    meta: { title: "Home", icon: "Grid" },
     children: [
+      {
+        path: "nwcc",
+        name: "NWCC",
+        component: () => import("@/views/nwcc/index.vue"),
+        meta: { title: "Home Controller Deployment", icon: "check" },
+      },     
       {
         path: "devicedp",
         name: "Devicedp",
-        component: () => import("@/views/devicedp"),
-        meta: { title: "Device Deployment", icon: "table" },
+        component: () => import("@/views/devicedp/index.vue"),
+        meta: { title: "Device Deployment", icon: "Check" },
+      },     
+      {
+        path: "contacts",
+        name: "Contacts",
+        component: () => import("@/views/customer/index.vue"),
+        meta: { title: "Customer Contacts", icon: "Check" },
+      },     
+      {
+        path: "platform",
+        name: "Platform",
+        component: () => import("@/views/platform/index.vue"),
+        meta: { title: "Corteca Platform", icon: "Check", checkPermission: true },
+        // hidden: checkPermission()
       },     
     ],
   },
@@ -61,99 +80,19 @@ export const constantRoutes = [
     component: Layout,
     redirect: "/admin/grade",
     name: "Admin",
-    meta: { title: "Admin", icon: "user" },
+    meta: { title: "Admin", icon: "UserFilled", checkPermission: true },
     children: [
       {
         path: "grade",
         name: "Grade",
         component: () => import("@/views/grade/index.vue"),
-        meta: { title: "Grade Management", icon: "table" },
+        meta: { title: "Grade Management", icon: "Check" },
       },     
       {
         path: "user",
         name: "User",
-        component: () => import("@/views/user"),
-        meta: { title: "User Management", icon: "table" },
-      },
-    ],
-  },
-
-  {
-    path: "/example",
-    component: Layout,
-    redirect: "/example/table",
-    name: "Example",
-    meta: { title: "Example", icon: "dashboard" },
-    children: [
-      {
-        path: "table",
-        name: "Table",
-        component: () => import("@/views/table/index.vue"),
-        meta: { title: "Table", icon: "table" },
-      },     
-      {
-        path: "tree",
-        name: "Tree",
-        component: () => import("@/views/tree/index.vue"),
-        meta: { title: "Tree", icon: "tree" },
-      },
-    ],
-  },
-
-  {
-    path: "/form",
-    component: Layout,
-    children: [
-      {
-        path: "index",
-        name: "Form",
-        component: () => import("@/views/form/index.vue"),
-        meta: { title: "Form", icon: "form" },
-      },
-    ],
-  },
-
-  {
-    path: "/nested",
-    component: Layout,
-    redirect: "/nested/menu1",
-    name: "Nested",
-    meta: {
-      title: "Nested",
-      icon: "nested",
-    },
-    children: [
-      {
-        path: "menu1",
-        component: () => import("@/views/nested/menu1/index.vue"), // Parent router-view
-        name: "Menu1",
-        meta: { title: "Menu1" },
-        children: [
-          {
-            path: "menu1-1",
-            component: () => import("@/views/nested/menu1/menu1-1/index.vue"),
-            name: "Menu1-1",
-            meta: { title: "Menu1-1" },
-          },
-          {
-            path: "menu1-2",
-            component: () => import("@/views/nested/menu1/menu1-2/index.vue"),
-            name: "Menu1-2",
-            meta: { title: "Menu1-2" },
-          },
-          {
-            path: "menu1-3",
-            component: () => import("@/views/nested/menu1/menu1-3/index.vue"),
-            name: "Menu1-3",
-            meta: { title: "Menu1-3" },
-          },
-        ],
-      },
-      {
-        path: "menu2",
-        component: () => import("@/views/nested/menu2/index.vue"),
-        name: "Menu2",
-        meta: { title: "menu2" },
+        component: () => import("@/views/user/index.vue"),
+        meta: { title: "User Management", icon: "Check" },
       },
     ],
   },

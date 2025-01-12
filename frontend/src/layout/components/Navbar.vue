@@ -19,7 +19,7 @@
             <router-link to="/">
               <el-dropdown-item> Home </el-dropdown-item>
             </router-link>
-            <a
+            <!-- <a
               target="_blank"
               href="https://github.com/PanJiaChen/vue-admin-template/"
             >
@@ -30,7 +30,7 @@
               href="https://panjiachen.github.io/vue-element-admin-site/#/"
             >
               <el-dropdown-item>Docs</el-dropdown-item>
-            </a>
+            </a> -->
             <el-dropdown-item divided @click="logout">
               <span style="display: block">Log Out</span>
             </el-dropdown-item>
@@ -60,7 +60,7 @@ export default {
     },
     avatar() {
       const { user } = useStore();
-      return user.avatar;
+      return user.getAvatar() || "";
     }
   },
   methods: {

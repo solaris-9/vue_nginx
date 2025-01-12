@@ -2,6 +2,7 @@ import { loginApi, logoutApi, userInfoApi } from '@/api/user';
 import {
   getToken,
   setToken,
+  //setCsrfToken,
   removeToken,
   getUserCookie,
   setUserCookie,
@@ -49,6 +50,7 @@ const useUserStore = defineStore({
 
         //本地持久化存储token
         setToken(result.data.token);
+        //setCsrfToken(result.data.token);
         let tkk = getToken();
 
         return 'ok';
@@ -56,7 +58,7 @@ const useUserStore = defineStore({
         return Promise.reject(new Error('failed'));
       }
     },
-    getUserInfo () {
+    async getUserInfo () {
       return new Promise((resolve, reject) => {
         userInfoApi(this.token)
           .then(response => {
@@ -69,17 +71,19 @@ const useUserStore = defineStore({
 
             this.name = data.name;
             this.avatar = data.avatar;
-            this.info.name = data.name;
-            this.info.mail = data.mail;
-            this.info.roles = data.roles;
-            this.info.level = data.level;
-            this.info.add = data.add;
-            this.info.edit = data.edit;
-            this.info.delete = data.delete;
-            this.info.search = data.search;
-            this.info.view = data.view;
-            this.info.export = data.export;
-            this.info.download = data.download;
+            this.info = {...this.info, ...data}
+            setUserCookie(this.info);
+            // this.info.name = data.name;
+            // this.info.mail = data.mail;
+            // this.info.roles = data.roles;
+            // this.info.level = data.level;
+            // this.info.add = data.add;
+            // this.info.edit = data.edit;
+            // this.info.delete = data.delete;
+            // this.info.search = data.search;
+            // this.info.view = data.view;
+            // this.info.export = data.export;
+            // this.info.download = data.download;
             resolve(data);
           })
           .catch(error => {
@@ -120,7 +124,7 @@ const useUserStore = defineStore({
     },
 
     getUser () {
-      if (this.info) {
+      if (this.info.mail) {
         return this.info;
       } else {
         const info = getUserCookie();
@@ -128,9 +132,22 @@ const useUserStore = defineStore({
       }
     },
 
+    getAvatar () {
+      if (this.avatar) {
+        return this.avatar;
+      } else {
+        const info = getUserCookie();
+        if (info) {
+          return info.avatar;
+        } else {
+          return "";
+        };
+      }
+    },
+
     checkPermission (item) {
       let info = this.getUser();
-      if (info[item] == 'Yes') {
+      if (info && info[item] == 'Yes') {
         return true;
       } else {
         return false;

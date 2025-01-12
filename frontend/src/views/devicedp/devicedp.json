@@ -1,0 +1,759 @@
+{
+    "formName": "DeviceDp",
+    "functions": {
+        "add": "deviceDpAdd",
+        "edit": "deviceDpEdit",
+        "list": "deviceDpList",
+        "delete": "deviceDpDelete"
+    },
+    "notifications": {
+        "switch": "deviceDpSwitch",
+        "refresh": "deviceDpRefresh"
+    },
+    "preload": {
+        "customerData": { "api": "customerList", "type": "array" },
+        "deviceData": { "api": "deviceList", "type": "array" },
+        "nwccData": { "api": "nwccList", "type": "array" },
+        "contactsData": { "api": "contactsList", "type": "array" }
+      },
+    "header": {
+        "fields": [
+        ]      
+    },
+    "fields": [
+        {
+            "label": "ID",
+            "type": "text",
+            "model": "ID",
+            "column": "Id",
+            "rules": [],
+            "comments": "",
+            "hidden": false,
+            "listHidden": false,
+            "key": true,
+            "span": 8,
+            "header": true,
+            "disabled": true
+        },
+        {
+            "label": "Status",
+            "type": "select",
+            "model": "field_status",
+            "column": "Status",
+            "options": [
+                {
+                    "label": "New",
+                    "value": "New",
+                    "default": true
+                },
+                {
+                    "label": "Accepted",
+                    "value": "Accepted"
+                },
+                {
+                    "label": "Implemented",
+                    "value": "Implemented"
+                },
+                {
+                    "label": "Query",
+                    "value": "Query"
+                },
+                {
+                    "label": "Rejected",
+                    "value": "Rejected"
+                },
+                {
+                    "label": "Closed",
+                    "value": "Closed"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 8,
+            "header": true,
+            "change": {
+                "func": "onStatusChange",
+                "message": ""
+            }
+        },
+        {
+            "label": "Assignee",
+            "type": "text",
+            "model": "field_assignee",
+            "column": "Assignee",
+            "dependsOn": [
+                {
+                    "field": "field_customer",
+                    "conditionalField": "field_status",
+                    "by": {
+                        "attribute": "field_customer_name",
+                        "source": "contactsData",
+                        "conditionalKeys": {
+                            "New": {
+                                "field": "field_nwf_plm",
+                                "default": ""
+                            },
+                            "Accepted": {
+                                "field": "field_local_contacts",
+                                "default": "jaisankar.gunasekaran@nokia.com"
+                            },
+                            "Implemented": {
+                                "field": "field_nwf_plm",
+                                "default": ""
+                            },
+                            "Query": {
+                                "field": "",
+                                "default": ""
+                            },
+                            "Rejected": {
+                                "field": "",
+                                "default": ""
+                            },
+                            "Closed": {
+                                "field": "",
+                                "default": ""
+                            }
+                        },
+                        "defaultKey": "field_nwf_plm"
+                    }
+                }
+            ],
+            "onInput": "onAssigneeInput",
+            "rules": [],
+            "comments": "",
+            "hidden": false,
+            "span": 8,
+            "header": true
+        },
+        {
+            "label": "Customer",
+            "type": "select",
+            "model": "field_customer",
+            "column": "Customer",
+            "options": [],
+            "optionSource": {
+                "data": "customerData",
+                "field": "customer"
+            },
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 12,
+            "change": {
+                "func": "onRootDeviceOptionsUpdate",
+                "message": "Please contact the FN professional services team!"
+            }
+        },
+        {
+            "label": "Add New Customer",
+            "type": "button",
+            "onClick": "onCustomerAddClick",
+            "hidden": false,
+            "span": 12
+        },
+        {
+            "label": "Customer Id",
+            "type": "text",
+            "model": "field_customer_id",
+            "column": "Customer Id",
+            "dependsOn": [
+                {
+                    "field": "field_customer",
+                    "from": {
+                        "attribute": "customer",
+                        "source": "customerData",
+                        "key": "cid"
+                    }
+                }
+            ],
+            "rules": [""],
+            "comments": "",
+            "hidden": false,
+            "listHidden": false,
+            "span": 24,
+            "disabled": true
+        },
+        {
+            "label": "Key",
+            "type": "text",
+            "model": "field_jira_id",
+            "column": "Key",
+            "dependsOn": [
+                {
+                    "field": "field_customer",
+                    "from": {
+                        "attribute": "customer",
+                        "source": "customerData",
+                        "key": "key"
+                    }
+                }
+            ],
+            "rules": [],
+            "comments": "",
+            "hidden": true,
+            "listHidden": true,
+            "span": 24
+        },
+        {
+            "label": "Root Device",
+            "type": "select",
+            "model": "field_root_device",
+            "column": "RootDevice",
+            "options": [],
+            "optionSource": {
+                "data": "deviceData",
+                "field": "Product"
+            },
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 12
+        },
+        {
+            "label": "Product Variant",
+            "type": "select",
+            "model": "field_product_variant",
+            "column": "ProductVariant",
+            "dependsOn": [
+                {
+                    "field": "field_root_device",
+                    "filter": {
+                        "attribute": "Product",
+                        "mapFrom": "deviceData"
+                    },
+                    "mapToOption": "{Code}"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 12
+        },
+        {
+            "label": "BizLine",
+            "type": "text",
+            "model": "bizline",
+            "column": "BizLine",
+            "dependsOn": [
+                {
+                    "field": "field_root_device",
+                    "from": {
+                        "attribute": "Product",
+                        "source": "deviceData",
+                        "key": "Bizline"
+                    }
+                }
+            ],
+            "rules": [""],
+            "comments": "",
+            "hidden": true,
+            "listHidden": true,
+            "span": 24
+        },
+        {
+            "label": "Will this device deployment be managed by a Corteca Home Controller?",
+            "type": "select",
+            "model": "field_managed_by_hc",
+            "column": "ManagedbyHC",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "change": {
+                "func": "onRootDeviceOptionsUpdate",
+                "message": "Please contact the FN professional services team!"
+            }
+        },
+        {
+            "label": "Which Corteca Home Controller instance will this deployment be managed by?",
+            "type": "select",
+            "model": "field_home_controller",
+            "column": "HomeController",
+            "options": [],
+            "dependsOn": [
+                {
+                    "field": "field_customer",
+                    "filter": {
+                        "attribute": "field_customer",
+                        "mapFrom": "nwccData"
+                    },
+                    "mapToOption": "{ID}"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_managed_by_hc"],
+                "condition": "(field_managed_by_hcValue === 'Yes')"
+            },
+            "stopMessage": "Please contact plm!"
+        },
+        {
+            "label": "Managed by HDM",
+            "type": "select",
+            "model": "field_managed_by_hdm",
+            "column": "ManagedbyHDM",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 12,
+            "visibility": {
+                "dependsOn": ["field_managed_by_hc"],
+                "condition": "(field_managed_by_hcValue === 'Yes')"
+            }
+        },
+        {
+            "label": "Which service will handle the SW lifecycle management of the root device?",
+            "type": "select",
+            "model": "field_root_update_method",
+            "column": "RootUpdateMethod",
+            "options": [
+                {
+                    "label": "OMCI",
+                    "value": "OMCI",
+                    "valid": {
+                        "field": ["bizline"],
+                        "condition": "bizlineValue === 'ONT'"
+                    }
+                },
+                {
+                    "label": "3rd party ACS",
+                    "value": "3rd party ACS"
+                },
+                {
+                    "label": "3rd party USP",
+                    "value": "3rd party USP"
+                },
+                {
+                    "label": "OTA",
+                    "value": "OTA",
+                    "valid": {
+                        "field": ["bizline"],
+                        "condition": "bizlineValue != 'ONT'"
+                    }
+                },
+                {
+                    "label": "Home Controller",
+                    "value": "Home Controller",
+                    "valid": {
+                        "field": ["field_managed_by_hc"],
+                        "condition": "field_managed_by_hcValue === 'Yes'"
+                    }
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "tooltip": "https://confluence.ext.net.nokia.com/display/CORTECA/Beacon+deployment+guidelines#Beacondeploymentguidelines-Upgradingbeacons",
+            "span": 24
+        },
+        {
+            "label": "Was the OTA license included in the customer opportunity or was there an approval given by BBD for providing OTA updates?",
+            "type": "select",
+            "model": "field_separate_license",
+            "column": "SeparateLicense",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_root_update_method", "field_managed_by_hc"],
+                "condition": "(field_root_update_methodValue === 'OTA' && field_managed_by_hcValue != 'Yes')"
+            }
+        },
+        {
+            "label": "Do you want Nokia to maintain the SW to a recent SW and provide automatic OTA updates?",
+            "type": "select",
+            "model": "field_auto_ota",
+            "column": "AutoOTA",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "Yes: Nokia will push a SW update twice a year (1st of August and 1st of May) to the device or earlier on request of the customer<br>No: the customer will request Nokia to create OTA rules",
+            "hidden": false,
+            "span": 12,
+            "tooltip": "Help link: This will contain the link to the Auto OTA process definition",
+            "visibility": {
+                "dependsOn": ["field_root_update_method", "bizline"],
+                "condition": "(field_root_update_methodValue === 'OTA' && bizlineValue === 'NWF')"
+            }
+        },
+        {
+            "label": "Please upload the waiver for Auto-OTA signed by the customer in PDF format.",
+            "type": "file",
+            "accept": ".pdf",
+            "downloadLabel": "Download File",
+            "model": "field_waiver",
+            "column": "Waiver",
+            "rules": [],
+            "comments": "",
+            "hidden": false,
+            "span": 12,
+            "visibility": {
+                "dependsOn": ["field_auto_ota"],
+                "condition": "(field_auto_otaValue === 'Yes' )"
+            }
+        },
+        {
+            "label": "Do you want to set up a BoENG rule for this Beacon to apply a specific bootstrap configuration to the device?",
+            "type": "select",
+            "model": "field_boeng_rule",
+            "column": "BoengRule",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "tooltip": "https://confluence.ext.net.nokia.com/pages/viewpage.action?pageId=1844117274",
+            "visibility": {
+                "dependsOn": ["field_root_device"],
+                "condition": "(field_root_deviceValue && field_root_deviceValue.startsWith('Beacon'))"
+            }
+        },
+        {
+            "label": "Select how you want to whitelist these Beacons to to this BoENG rule.",
+            "type": "select",
+            "model": "field_whitelisting_method",
+            "column": "WhitelistingMethod",
+            "options": [
+                {
+                    "label": "Dedicated OPID",
+                    "value": "Dedicated OPID"
+                },
+                {
+                    "label": "IP based",
+                    "value": "IP based"
+                },
+                {
+                    "label": "Serial number",
+                    "value": "Serial number"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "tooltip": "https://confluence.ext.net.nokia.com/pages/viewpage.action?pageId=1844117274#BeaconOnboardingEngine(BoENG)-BoENGwhitelistingmethods",
+            "visibility": {
+                "dependsOn": ["field_boeng_rule"],
+                "condition": "(field_boeng_ruleValue === 'Yes' )"
+            }
+        },
+        {
+            "label": "Public IP range(s)",
+            "type": "textarea",
+            "model": "field_ip_ranges",
+            "column": "IPRanges",
+            "rules": ["required"],
+            "comments": "Both IPv4 and IPv6 ranges can be entered. Use ; to separate entries. Example: 15.14.13.12/24; 3af2:12345::/48.<br>Note:  in case of dual stack deployments, BoENG calls will be made from the WAN IPv6 address of the device.",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_whitelisting_method"],
+                "condition": "(field_whitelisting_methodValue === 'IP based' )"
+            }
+        },
+        {
+            "label": "If this product is directly shipped to the customer (not through a channel partner) and a shipment id exists for this customer, devices will automatically be whitelisted to this BoENG rule. If not, please upload a csv file with the serial numbers that need to be linked to this BoENG rule",
+            "type": "file",
+            "accept": ".csv",
+            "downloadLabel": "Download File",
+            "model": "field_csv_file",
+            "column": "CSV",
+            "rules": [],
+            "comments": "",
+            "hidden": false,
+            "span": 12,
+            "tooltip": "Link to example csv file",
+            "visibility": {
+                "dependsOn": ["field_whitelisting_method"],
+                "condition": "(field_whitelisting_methodValue === 'Serial number' )"
+            }
+        },
+        {
+            "label": "Which options do you want configured by the BoENG rule.",
+            "type": "checkbox",
+            "model": "field_boeng_options",
+            "column": "BoengOptions",
+            "options": [
+                {
+                    "label": "TR-069/ACS",
+                    "value": "TR069"
+                },
+                {
+                    "label": "3rd party USP Controller",
+                    "value": "3rd party USP Controller"
+                },
+                {
+                    "label": "Home Controller Config",
+                    "value": "Home Controller Config",
+                    "valid": {
+                        "field": ["field_managed_by_hc"],
+                        "condition": "field_managed_by_hcValue === 'Yes'"
+                    }
+                }
+            ],
+            "rules": ["required"],
+            "comments": "An OUID will automatically be configured for this BoENG rule",
+            "hidden": false,
+            "span": 24,
+            "tooltip": "https://confluence.ext.net.nokia.com/pages/viewpage.action?pageId=1844117274#BeaconOnboardingEngine(BoENG)-BoENGconfigurationoptions",
+            "visibility": {
+                "dependsOn": ["field_boeng_rule"],
+                "condition": "(field_boeng_ruleValue === 'Yes' )"
+            }
+        },
+        {
+            "label": "TR069 ACS info",
+            "type": "group",
+            "model": "field_acs_url",
+            "fields": [
+                {"model": "field_acs_url", "label": "ACS URL", "column": "ACSURL"},
+                {"model": "field_acs_username", "label": "ACS User Name", "column": "ACSUsername"},
+                {"model": "field_acs_password", "label": "ACS User Password", "column": "ACSPassword"}
+            ],
+            "column": "NA",
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_boeng_options"],
+                "condition": "(field_boeng_optionsValue && field_boeng_optionsValue.includes('TR069') )"
+            }
+        },
+        {
+            "label": "USP Controller Address/Port",
+            "type": "group",
+            "model": "field_usp_addr",
+            "fields": [
+                {"model": "field_usp_addr", "label": "USP Controller Address", "column": "UspUrl"},
+                {"model": "field_usp_port", "label": "USP Controller Port", "column": "UspPort"}
+            ],
+            "column": "NA",
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 12,
+            "visibility": {
+                "dependsOn": ["field_boeng_options"],
+                "condition": "(field_boeng_optionsValue && field_boeng_optionsValue.includes('3rd party USP Controller') )"
+            }
+        },
+        {
+            "label": "Will this device be used in a mesh network?",
+            "type": "select",
+            "model": "field_mesh_extended",
+            "column": "MeshExtended",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24
+        },
+        {
+            "label": "Mesh extender",
+            "type": "select",
+            "model": "field_extender_beacon",
+            "column": "Extender Beacon",
+            "options": [],
+            "optionSource": {
+                "data": "deviceData",
+                "field": "Product",
+                "condition": "value.startsWith('Beacon')"
+            },
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_mesh_extended"],
+                "condition": "(field_mesh_extendedValue === 'Yes' )"
+            }
+        },
+        {
+            "label": "Which service will handle the SW lifecycle management of the mesh extender?",
+            "type": "select",
+            "model": "field_extender_update_method",
+            "column": "ExtenderUpdateMethod",
+            "options": [
+                {
+                    "label": "3rd party ACS",
+                    "value": "3rd party ACS"
+                },
+                {
+                    "label": "3rd party USP",
+                    "value": "3rd party USP"
+                },
+                {
+                    "label": "OTA",
+                    "value": "OTA"
+                },
+                {
+                    "label": "Home Controller",
+                    "value": "Home Controller",
+                    "valid": {
+                        "field": ["field_managed_by_hc"],
+                        "condition": "field_managed_by_hcValue === 'Yes'"
+                    }
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_mesh_extended"],
+                "condition": "(field_mesh_extendedValue === 'Yes' )"
+            }
+        },
+        {
+            "label": "Separate license for OTA included or explicit BBD approval?",
+            "type": "select",
+            "model": "field_extender_separate_license",
+            "column": "ExtenderSeparateLicense",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_managed_by_hc", "field_root_update_method"],
+                "condition": "(field_managed_by_hcValue === 'No' && field_root_update_methodValue != 'OTA' && field_root_update_methodValue != '' )"
+            }
+        },
+        {
+            "label": "Automatic SW updates with OTA?",
+            "type": "select",
+            "model": "field_extender_auto_ota",
+            "column": "ExtenderAutoOTA",
+            "options": [
+                {
+                    "label": "Yes",
+                    "value": "Yes"
+                },
+                {
+                    "label": "No",
+                    "value": "No"
+                }
+            ],
+            "rules": ["required"],
+            "comments": "Yes: Nokia will push a SW update twice a year (1st of August and 1st of May) to the device or earlier on request of the customer<br>No: the customer will request Nokia to create OTA rules",
+            "hidden": false,
+            "span": 12,
+            "visibility": {
+                "dependsOn": ["field_managed_by_hc", "field_root_update_method"],
+                "condition": "(field_managed_by_hcValue === 'No' && field_root_update_methodValue != 'OTA' && field_root_update_methodValue != '' )"
+            }
+        },
+        {
+            "label": "Signed Waiver",
+            "type": "file",
+            "accept": ".pdf",
+            "downloadLabel": "Download File",
+            "model": "field_extender_waiver",
+            "column": "Extender Waiver",
+            "rules": [],
+            "comments": "",
+            "hidden": false,
+            "span": 12,
+            "visibility": {
+                "dependsOn": ["field_extender_auto_ota"],
+                "condition": "(field_extender_auto_otaValue === 'Yes' )"
+            }
+        },
+        {
+            "label": "OUID",
+            "type": "text",
+            "model": "field_ouid",
+            "column": "OUID",
+            "rules": [""],
+            "comments": "",
+            "hidden": false,
+            "span": 24,
+            "visibility": {
+                "dependsOn": ["field_status"],
+                "condition": "(field_statusValue !== 'New' )"
+            }
+        },
+        {
+            "label": "Additional",
+            "type": "textarea",
+            "model": "field_additional",
+            "column": "Additional",
+            "rules": [],
+            "comments": "",
+            "hidden": false,
+            "listHidden": false,
+            "span": 24
+        }
+    ]
+}

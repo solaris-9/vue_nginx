@@ -15,5 +15,5 @@ FROM public.ecr.aws/docker/library/nginx:1.23.1-alpine as production-stage
 COPY nginx/prod.conf /etc/nginx/nginx.conf
 COPY backend/static /usr/src/app/static/
 COPY --from=build-stage /app/dist /dist/
-EXPOSE 8001
+EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

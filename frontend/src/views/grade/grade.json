@@ -6,30 +6,36 @@
         "list": "gradeList",
         "delete": "gradeDelete"
     },
+    "notifications": {
+        "switch": "switchGrade",
+        "refresh": "refreshGrade"
+    },
     "fields": [
         {
             "label": "GID",
             "type": "text",
-            "model": "gid",
+            "model": "GID",
             "column": "GID",
             "rules": [],
             "comments": "",
-            "hidden": true
+            "hidden": true,
+            "listHidden": true,
+            "key": true
         },
         {
             "label": "Grade",
             "type": "text",
-            "model": "grade",
+            "model": "Grade",
             "column": "Grade",
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "layout": "horizontal"
+            "span": 24
         },
         {
             "label": "Add",
             "type": "select",
-            "model": "add",
+            "model": "Add",
             "column": "Add",
             "options": [
                 {
@@ -45,12 +51,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "layout": "horizontal"
+            "span": 12
         },
         {
             "label": "Edit",
             "type": "select",
-            "model": "edit",
+            "model": "Edit",
             "column": "Edit",
             "options": [
                 {
@@ -66,14 +72,13 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "layout": "vertical"
+            "span": 12
         },
         {
             "label": "Delete",
             "type": "select",
-            "model": "delete",
+            "model": "Delete",
             "column": "Delete",
-            "tooltip": "If delete previlige granted.",
             "options": [
                 {
                     "label": "Yes",
@@ -88,12 +93,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "layout": "vertical"
+            "span": 12
         },
         {
             "label": "Search",
             "type": "select",
-            "model": "search",
+            "model": "Search",
             "column": "Search",
             "options": [
                 {
@@ -109,12 +114,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "layout": "vertical"
+            "span": 12
         },
         {
             "label": "View",
             "type": "select",
-            "model": "view",
+            "model": "View",
             "column": "View",
             "options": [
                 {
@@ -130,14 +135,13 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "layout": "vertical"
+            "span": 12
         },
         {
             "label": "Export",
             "type": "select",
-            "model": "export",
+            "model": "Export",
             "column": "Export",
-            "tooltip": "If export previlige granted.",
             "options": [
                 {
                     "label": "Yes",
@@ -152,16 +156,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "layout": "vertical",
-            "visibility": {
-                "dependsOn": ["view", "search"],
-                "condition": "(viewValue === 'Yes' && searchValue === 'Yes')"
-            }
+            "span": 12
         },
         {
             "label": "Download",
             "type": "select",
-            "model": "download",
+            "model": "Download",
             "column": "Download",
             "options": [
                 {
@@ -177,20 +177,17 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "layout": "vertical",
-            "visibility": {
-                "dependsOn": ["export"],
-                "condition": "(exportValue === 'Yes')"
-            }
+            "span": 12
         },
         {
             "label": "RecordTime",
             "type": "text",
-            "model": "recordtime",
+            "model": "RecordTime",
             "column": "RecordTime",
             "rules": [],
             "comments": "",
-            "hidden": true
+            "hidden": true,
+            "listHidden": true
         }
     ]
 }

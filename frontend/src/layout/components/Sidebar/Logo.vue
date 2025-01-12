@@ -6,8 +6,9 @@
         <h1 v-else class="sidebar-title">{{ title }} </h1>
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo">
-        <h1 class="sidebar-title">{{ title }} </h1>
+        <!-- <img v-if="logo" :src="logo" class="sidebar-logo">
+        <h1 class="sidebar-title">{{ title }} </h1> -->
+        <img :src="large" class="sidebar-logo-large">
       </router-link>
     </transition>
   </div>
@@ -25,7 +26,8 @@ export default {
   data() {
     return {
       title: 'BBD Device Deployment',
-      logo: 'http://10.129.114.221/static/img/nokia-N-white.a42da45a.png'
+      logo: 'http://10.129.114.221/static/img/nokia-N-white.a42da45a.png',
+      large: '/src/assets/customer_images/nokia_logo.png'
     }
   }
 }
@@ -69,6 +71,11 @@ export default {
       line-height: 50px;
       font-size: 14px;
       font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+      vertical-align: middle;
+    }
+
+    & .sidebar-logo-large {
+      height: 42px;
       vertical-align: middle;
     }
   }

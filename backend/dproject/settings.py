@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 from pathlib import Path
 from environs import Env
+import os
 
 env = Env()
 env.read_env()
@@ -170,6 +171,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = 'static'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
+
+UPLOAD_ROOT = os.path.join(BASE_DIR,'upload')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

@@ -1,0 +1,123 @@
+{
+    "formName": "Customer",
+    "functions": {
+        "add": "customerAdd",
+        "edit": "customerEdit",
+        "list": "contactsList"
+    },
+    "notifications": {
+        "switch": "switchCustomer",
+        "refresh": "refreshCustomer"
+    },
+    "skipAutoResize": true,
+    "fields": [
+        {
+            "label": "ID",
+            "type": "text",
+            "model": "field_jira_id",
+            "column": "ID",
+            "rules": [],
+            "comments": "",
+            "hidden": true,
+            "listHidden": true,
+            "key": true
+        },
+        {
+            "label": "Customer Name",
+            "type": "text",
+            "model": "field_customer_name",
+            "column": "Customer Name",
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 24
+        },
+        {
+            "label": "Customer Id",
+            "type": "text",
+            "model": "field_customer_id",
+            "column": "Customer Id",
+            "rules": [""],
+            "comments": "",
+            "hidden": false,
+            "span": 24
+        },
+        {
+            "label": "Description",
+            "type": "text",
+            "model": "field_description",
+            "column": "Description",
+            "rules": [""],
+            "comments": "",
+            "hidden": true,
+            "listHidden": true,
+            "span": 24
+        },
+        {
+            "label": "Customer OLCS",
+            "type": "text",
+            "model": "field_customer_olcs",
+            "column": "Customer OLCS",
+            "rules": [""],
+            "comments": "",
+            "hidden": true,
+            "listHidden": true,
+            "span": 24
+        },
+        {
+            "label": "Customer Impact",
+            "type": "text",
+            "model": "field_customer_impact",
+            "column": "Customer Impact",
+            "rules": [""],
+            "comments": "",
+            "hidden": true,
+            "listHidden": true,
+            "span": 24
+        },
+        {
+            "label": "ONT PLM",
+            "type": "text",
+            "model": "field_ont_plm",
+            "column": "ONT PLM",
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "listHidden": false,
+            "span": 24
+        },
+        {
+            "label": "NWF PLM",
+            "type": "text",
+            "model": "field_nwf_plm",
+            "column": "NWF PLM",
+            "rules": [""],
+            "comments": "",
+            "hidden": false,
+            "listHidden": false,
+            "span": 24
+        },
+        {
+            "label": "FWA PLM",
+            "type": "text",
+            "model": "field_fwa_plm",
+            "column": "FWA PLM",
+            "rules": [""],
+            "comments": "",
+            "hidden": false,
+            "listHidden": false,
+            "span": 24
+        },
+        {
+            "label": "Local Contact",
+            "type": "text",
+            "model": "field_local_contact",
+            "column": "Local Contact",
+            "rules": [""],
+            "comments": "",
+            "hidden": false,
+            "listHidden": false,
+            "span": 24
+        }
+    ]
+}

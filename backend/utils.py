@@ -367,12 +367,15 @@ class DatabaseConnector:
     _cs = None
     def __init__(self, db):
         self._db = db
-        # if db == 'requestdb':
+        key = db
+        if db == 'bbddb':
+          key = "default"
+
         self._cs = 'mysql+pymysql://{}:{}@{}:{}/'.format(
-            bs.DATABASES[db]['USER'],
-            quote_plus(bs.DATABASES[db]['PASSWORD']),
-            bs.DATABASES[db]['HOST'],
-            bs.DATABASES[db]['PORT']
+            bs.DATABASES[key]['USER'],
+            quote_plus(bs.DATABASES[key]['PASSWORD']),
+            bs.DATABASES[key]['HOST'],
+            bs.DATABASES[key]['PORT']
           )
         # elif db == 'customerdb':
         #     self._cs = 'mysql+pymysql://{}:{}@{}:{}/'.format(

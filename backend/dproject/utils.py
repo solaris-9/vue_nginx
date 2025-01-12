@@ -78,7 +78,7 @@ def gen_tbl_index(tbl, id, db):
     )
     logger.info(f"sql to execute: {sql}")
     df = db.read_query(sql)      
-    logging.getLogger(__name__).debug(df)
+    logger.info(df)
     if len(df.index) > 0 :
         if df.at[0, 'mm'] is None:
             res = 0

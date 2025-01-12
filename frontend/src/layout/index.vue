@@ -12,6 +12,7 @@
         <tags-view  />
       </div>
       <app-main />
+      <Footer />
     </div>
   </div>
 </template>
@@ -22,6 +23,7 @@ import useStore from "@/store";
 import { useWindowSize } from '@vueuse/core';
 import { computed, watchEffect } from 'vue';
 import Sidebar from "./components/Sidebar/index.vue";
+import Footer from "./components/Footer.vue";
 
 const { width } = useWindowSize();
 const WIDTH = 992;

@@ -28,7 +28,8 @@ router.beforeEach(async (to, from, next) => {
       next({ path: "/" });
       NProgress.done();
     } else {
-      const hasGetUserInfo = user.name;
+      //const hasGetUserInfo = user.name;
+      const hasGetUserInfo = user.getUser().name;
       if (hasGetUserInfo) {
         next();
       } else {

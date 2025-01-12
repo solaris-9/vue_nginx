@@ -1,0 +1,114 @@
+{
+    "formName": "User",
+    "functions": {
+        "add": "userAdd",
+        "edit": "userEdit",
+        "list": "userList",
+        "delete": "userDelete"
+    },
+    "notifications": {
+        "switch": "userSwitch",
+        "refresh": "userRefresh"
+    },
+    "preload": {
+        "roleData": { "api": "roleList", "fields": ["Grade"], "type": "array" }
+      },    
+    "fields": [
+        {
+            "label": "ID",
+            "type": "text",
+            "model": "Id",
+            "column": "Id",
+            "rules": [],
+            "comments": "",
+            "hidden": true,
+            "listHidden": false,
+            "key": true
+        },
+        {
+            "label": "User Name",
+            "type": "text",
+            "model": "Username",
+            "column": "Username",
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 12
+        },
+        {
+            "label": "Email",
+            "type": "text",
+            "model": "Email",
+            "column": "Email",
+            "rules": ["required", "email"],
+            "comments": "",
+            "hidden": false,
+            "span": 12
+        },
+        {
+            "label": "Roles",
+            "type": "select",
+            "model": "Roles",
+            "column": "Roles",
+            "options": [],
+            "optionSource": {
+                "data": "roleData",
+                "field": "Grade"
+            },
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 12
+        },
+        {
+            "label": "Level",
+            "type": "text",
+            "model": "Level",
+            "column": "Level",
+            "rules": ["required"],
+            "comments": "",
+            "hidden": false,
+            "span": 12
+        },
+        {
+            "label": "LastLogin",
+            "type": "text",
+            "model": "LastLogin",
+            "column": "LastLogin",
+            "rules": [],
+            "comments": "",
+            "hidden": true,
+            "listHidden": true
+        },
+        {
+            "label": "FirstName",
+            "type": "text",
+            "model": "FirstName",
+            "column": "FirstName",
+            "rules": [],
+            "comments": "",
+            "hidden": true,
+            "listHidden": false
+        },
+        {
+            "label": "LastName",
+            "type": "text",
+            "model": "LastName",
+            "column": "LastName",
+            "rules": [],
+            "comments": "",
+            "hidden": true,
+            "listHidden": false
+        },
+        {
+            "label": "FullName",
+            "type": "text",
+            "model": "FullName",
+            "column": "FullName",
+            "rules": [],
+            "comments": "",
+            "hidden": true,
+            "listHidden": false
+        }
+    ]
+}
