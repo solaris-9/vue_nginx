@@ -40,7 +40,8 @@
             "rules": [""],
             "comments": "",
             "hidden": false,
-            "span": 24
+            "span": 24,
+            "disabled": true
         },
         {
             "label": "Description",
