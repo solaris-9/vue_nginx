@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import defaultSettings from "@/settings";
 </script>
 
 <template>
     <div
         class="footer"
     >
-        Copyright ©2024
+        {{ defaultSettings.version }} / Copyright ©2024
     </div>
 </template>
 
