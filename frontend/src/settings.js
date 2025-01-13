@@ -1,6 +1,6 @@
 export default {
 
-    title: 'BBD Device Deployment',
+    title: 'Nokia Corteca Cloud Operations',
     showSettings: true,
   
     /**

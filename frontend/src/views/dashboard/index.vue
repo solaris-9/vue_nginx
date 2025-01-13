@@ -5,7 +5,7 @@
       <div style="height: 100%;width: 100%;display: inline-block;margin-top: 5%;">
         <!-- information title -->
         <span style="display: inline-block;width: 100%;font-size: 60px;font-weight: 600;color: #005aff;">
-          <span style="display: block;">BBD Device Deployment Tool</span>
+          <span style="display: block;">Nokia Corteca Cloud Operations</span>
           
         </span>
         <!-- Prompt the initial page information according to the level status -->

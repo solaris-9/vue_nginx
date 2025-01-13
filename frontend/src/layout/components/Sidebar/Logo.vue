@@ -25,7 +25,7 @@ export default {
   },
   data() {
     return {
-      title: 'BBD Device Deployment',
+      title: 'Nokia Corteca Cloud Operations',
       logo: 'http://10.129.114.221/static/img/nokia-N-white.a42da45a.png',
       large: '/src/assets/customer_images/nokia_logo.png'
     }
