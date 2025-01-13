@@ -14,6 +14,7 @@ services:
     command: /start_prod.sh
     environment:
       - "DJANGO_DEBUG=False"
+      - "DJANGO_SECRET_KEY=6zo$!3rii%jmwq!s7w294jypc%gtk!$4z-l4xsaxo14736u5ks"
     networks:
       - django-nginx
     volumes:
