@@ -35,7 +35,7 @@ services:
     networks:
       - django-nginx
     volumes:
-      - ./nginx/prod.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/dev.conf:/etc/nginx/nginx.conf:ro
       - django-static:/usr/src/app/static
     depends_on:
       - backend
