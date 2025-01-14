@@ -20,7 +20,12 @@
             "comments": "",
             "hidden": true,
             "listHidden": true,
-            "key": true
+            "key": true,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 20
+            }
         },
         {
             "label": "Customer Name",
@@ -30,7 +35,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 20
+            }
         },
         {
             "label": "Customer Id",
@@ -41,7 +51,12 @@
             "comments": "",
             "hidden": false,
             "span": 24,
-            "disabled": true
+            "disabled": true,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 20
+            }
         },
         {
             "label": "Description",
@@ -52,7 +67,12 @@
             "comments": "",
             "hidden": true,
             "listHidden": true,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 20
+            }
         },
         {
             "label": "Customer OLCS",
@@ -63,7 +83,12 @@
             "comments": "",
             "hidden": true,
             "listHidden": true,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 20
+            }
         },
         {
             "label": "Customer Impact",
@@ -74,7 +99,12 @@
             "comments": "",
             "hidden": true,
             "listHidden": true,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 20
+            }
         },
         {
             "label": "ONT PLM",
@@ -85,7 +115,12 @@
             "comments": "",
             "hidden": false,
             "listHidden": false,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 20
+            }
         },
         {
             "label": "NWF PLM",
@@ -96,7 +131,12 @@
             "comments": "",
             "hidden": false,
             "listHidden": false,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 20
+            }
         },
         {
             "label": "FWA PLM",
@@ -107,7 +147,12 @@
             "comments": "",
             "hidden": false,
             "listHidden": false,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 20
+            }
         },
         {
             "label": "Local Contact",
@@ -118,7 +163,12 @@
             "comments": "",
             "hidden": false,
             "listHidden": false,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 20
+            }
         }
     ]
 }

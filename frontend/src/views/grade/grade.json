@@ -20,7 +20,12 @@
             "comments": "",
             "hidden": true,
             "listHidden": true,
-            "key": true
+            "key": true,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 20
+            }
         },
         {
             "label": "Grade",
@@ -30,7 +35,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Add",
@@ -51,7 +61,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 12
+            "span": 12,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Edit",
@@ -72,7 +87,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 12
+            "span": 12,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Delete",
@@ -93,7 +113,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 12
+            "span": 12,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Search",
@@ -114,7 +139,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 12
+            "span": 12,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "View",
@@ -135,7 +165,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 12
+            "span": 12,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Export",
@@ -156,7 +191,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 12
+            "span": 12,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Download",
@@ -177,7 +217,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 12
+            "span": 12,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "RecordTime",
@@ -187,7 +232,12 @@
             "rules": [],
             "comments": "",
             "hidden": true,
-            "listHidden": true
+            "listHidden": true,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         }
     ]
 }

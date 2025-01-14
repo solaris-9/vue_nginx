@@ -28,6 +28,7 @@ const formRef = ref(props.schema.formName);
 const form = reactive({});
 const validationRules = reactive({});
 const visibleFields = reactive({});
+const visibleComments = reactive({});
 const formLoading = ref(true);
 const dataStore = reactive({}); //for preload data
 const typeStore = reactive({}); //for reload data type
@@ -253,10 +254,34 @@ const fieldVisibility = (field) => {
     }
 };
 
+const commentVisibility = (field) => {
+    if (field.comments) {
+        if (field.commentVisibility) {
+            const { dependsOn, condition } = field.commentVisibility;
+            const dependencyValues = Object.fromEntries(dependsOn.map(dep => [`${dep}Value`, form[dep]]));
+            console.log(`${field.model}.dependsOn = `, dependsOn)
+            console.log(`${field.model}.condition = `, condition)
+            console.log(`${field.model}.dependencyValues = `, dependencyValues)
+            try {
+                const isVisible = new Function(...Object.keys(dependencyValues), `return ${condition}`)(...Object.values(dependencyValues));
+                visibleComments[field.model] = isVisible;
+                console.log(`${field.model}.comments.visibility = ${isVisible}`);
+            } catch (error) {
+                console.log(`Error evaluating visibility for comment ${field.model}:`, error);
+                visibleComments[field.model] = true;
+            }
+        } else {
+            visibleComments[field.model] = true;
+        }
+    };
+}
 
 const computeVisibility = () => {
     props.schema.fields.forEach((field) => {
         field.model && fieldVisibility(field);
+        nextTick(() => {
+            field.model && commentVisibility(field);
+        });
     });
 };
 
@@ -836,6 +861,12 @@ props.schema.fields.forEach((field) => {
         watch(() => form[dep], () => fieldVisibility(field));
     });
   }
+
+  if (field.commentVisibility) {
+    field.commentVisibility.dependsOn.forEach(dep => {
+        watch(() => form[dep], () => commentVisibility(field));
+    });
+  }
 });
 
 // Lifecycle
@@ -870,14 +901,14 @@ onMounted(async () => {
             >
                 <el-row :gutter="20">
                     <template v-for="(field, index) in headerFields()" :key="field.model">
-                        <el-col :span="field.span">
+                        <el-col :span="field.size.item">
                             <el-row>
-                                <el-col :span="caculateLabelSpan(field)">
+                                <el-col :span="field.size.label">
                                     <div class="form-label">
                                         {{ field.label }}
                                     </div>
                                 </el-col>
-                                <el-col :span="caculateFieldSpan(field)">
+                                <el-col :span="field.size.field">
                                     <el-form-item 
                                         :prop="field.model" 
                                         v-show="!field.hidden && visibleFields[field.model]">
@@ -907,17 +938,17 @@ onMounted(async () => {
                     <template v-for="(field, index) in normalFields()" :key="field.model">
                         <el-col 
                             v-if="field.type === 'button'" 
-                            :span="field.span" 
+                            :span="field.size.item" 
                             v-show="!field.hidden"
                         >
                             <el-button type="primary" :class="getButtonClass(field)" @click="handleButtonClick(field)">
                                 {{ field.label }}
                             </el-button>
                         </el-col>
-                        <el-col v-else :span="field.span" v-show="!field.hidden && visibleFields[field.model]">
+                        <el-col v-else :span="field.size.item" v-show="!field.hidden && visibleFields[field.model]">
                             <el-row>
                                 <!-- Label Column -->
-                                <el-col :span="caculateLabelSpan(field)">
+                                <el-col :span="field.size.label">
                                     <div class="form-label">
                                         {{ field.label }}
                                         <el-popover
@@ -936,7 +967,7 @@ onMounted(async () => {
                                 </el-col>
 
                                 <!-- Input/Select Column -->
-                                <el-col :span="caculateFieldSpan(field)">
+                                <el-col :span="field.size.field">
                                     <el-form-item 
                                         :prop="field.model" 
                                         v-show="!field.hidden && visibleFields[field.model]">
@@ -1006,7 +1037,7 @@ onMounted(async () => {
                                                     </template>
                                                 </template>
                                             </component>
-                                            <div v-if="field.comments" class="form-comments" v-html="field.comments"></div>
+                                            <div v-if="field.comments && visibleComments[field.model]" class="form-comments" v-html="field.comments"></div>
                                         </template>
                                     </el-form-item>
                                 </el-col>
@@ -1122,7 +1153,7 @@ onMounted(async () => {
 
 .form-header {
     margin-bottom: 3px;
-
+    background-color: lightblue;
     .el-form-item {
         margin-bottom: 0px;
     }

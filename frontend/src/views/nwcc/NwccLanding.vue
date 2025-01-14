@@ -37,12 +37,16 @@ import FormTemplate from "@/components/template/FormTemplate.vue";
 import ListTemplate from "@/components/template/ListTemplate.vue";
 import useStore from "@/store";
 import EventBus from "@/utils/eventBus";
-import devicedp from "./devicedp.json";
+import ddp from "../devicedp/devicedp.json";
 import nwcc from "./nwcc.json";
 // import ListTemplate from "../../components/template/ListTemplate.vue";
 // import FormTemplate from "../../components/template/FormTemplate.vue";
 // import FormTemplate from "../../components/template/FormTemplate.vue";
-
+// devicedp.functions.list = "nwccList";
+const devicedp = structuredClone(ddp);
+devicedp.notifications.switch = "nwccSwitch";
+devicedp.notifications.refresh = "nwccRefresh";
+console.log("notifications = ", devicedp.notifications);
 export default {
     name: "LandingTemplate",
 
@@ -65,7 +69,7 @@ export default {
         const componentKey = ref(`${props.schema.comName}-${Math.random().toString(36).slice(2, 11)}`);
         const schema = reactive(props.schema);
         const notification = ref(props.schema.notifications.switch);
-
+        
         const getCompKey = (com) => {
             switch (com) {
                 case 'nwcc':

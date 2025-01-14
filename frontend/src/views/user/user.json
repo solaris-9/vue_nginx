@@ -23,7 +23,12 @@
             "comments": "",
             "hidden": true,
             "listHidden": false,
-            "key": true
+            "key": true,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "User Name",
@@ -33,7 +38,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 12
+            "span": 12,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Email",
@@ -43,7 +53,12 @@
             "rules": ["required", "email"],
             "comments": "",
             "hidden": false,
-            "span": 12
+            "span": 12,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Roles",
@@ -58,7 +73,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 12
+            "span": 12,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Level",
@@ -68,7 +88,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 12
+            "span": 12,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "LastLogin",
@@ -78,7 +103,12 @@
             "rules": [],
             "comments": "",
             "hidden": true,
-            "listHidden": true
+            "listHidden": true,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "FirstName",
@@ -88,7 +118,12 @@
             "rules": [],
             "comments": "",
             "hidden": true,
-            "listHidden": false
+            "listHidden": false,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "LastName",
@@ -98,7 +133,12 @@
             "rules": [],
             "comments": "",
             "hidden": true,
-            "listHidden": false
+            "listHidden": false,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "FullName",
@@ -108,7 +148,12 @@
             "rules": [],
             "comments": "",
             "hidden": true,
-            "listHidden": false
+            "listHidden": false,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         }
     ]
 }

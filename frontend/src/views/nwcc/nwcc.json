@@ -33,7 +33,12 @@
             "key": true,
             "span": 8,
             "header": true,
-            "disabled": true
+            "disabled": true,
+            "size": {
+                "item": 8,
+                "label": 8,
+                "field": 16
+            }
         },
         {
             "label": "Status",
@@ -75,6 +80,11 @@
             "change": {
                 "func": "onStatusChange",
                 "message": ""
+            },
+            "size": {
+                "item": 8,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -124,7 +134,12 @@
             "comments": "",
             "hidden": false,
             "span": 8,
-            "header": true
+            "header": true,
+            "size": {
+                "item": 8,
+                "label": 8,
+                "field": 16
+            }
         },
         {
             "label": "Customer",
@@ -139,7 +154,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 12
+            "span": 12,
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
+            }
         },
         {
             "label": "Add New Customer",
@@ -147,7 +167,12 @@
             "onClick": "onCustomerAddClick",
             "class": "modal-button",
             "hidden": false,
-            "span": 12
+            "span": 12,
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
+            }
         },
         {
             "label": "Customer Id",
@@ -169,7 +194,12 @@
             "hidden": false,
             "listHidden": true,
             "span": 24,
-            "disabled": true
+            "disabled": true,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 20
+            }
         },
         {
             "label": "Key",
@@ -190,7 +220,12 @@
             "comments": "",
             "hidden": true,
             "listHidden": true,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 20
+            }
         },
         {
             "label": "Country",
@@ -204,7 +239,12 @@
             },
             "comments": "",
             "hidden": false,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Will this Home Controller deployment be hosted by Nokia or hosted by the CSP?",
@@ -228,6 +268,11 @@
             "change": {
                 "func": "onHostedByChange",
                 "message": "Please contact the FN professional services team!"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -248,7 +293,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "What type of Home Controller instance is requested?",
@@ -272,7 +322,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "How long is this enant expected to be alive?",
@@ -286,6 +341,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type"],
                 "condition": "(field_hc_typeValue === 'Dedicated instance')"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -315,6 +375,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type"],
                 "condition": "(field_hc_typeValue === 'Dedicated instance')"
+            },
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -339,6 +404,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type"],
                 "condition": "(field_hc_typeValue === 'Dedicated instance')"
+            },
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -367,6 +437,11 @@
             "change": {
                 "func": "onDedicatedLegalChange",
                 "message": "Please contact the FN professional services team!"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -391,6 +466,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type"],
                 "condition": "(field_hc_typeValue === 'Multi-tenant instance')"
+            },
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -419,6 +499,11 @@
             "change": {
                 "func": "onMultiLegalChange",
                 "message": "Please contact the FN professional services team!"
+            },
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -443,6 +528,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type"],
                 "condition": "(field_hc_typeValue === 'Trial instance')"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -467,6 +557,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type", "field_trial_type"],
                 "condition": "(field_hc_typeValue === 'Trial instance' && field_trial_typeValue === 'Multi-tenant')"
+            },
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -481,6 +576,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type", "field_trial_type", "field_trial_tenant"],
                 "condition": "(field_hc_typeValue === 'Trial instance' && field_trial_typeValue === 'Multi-tenant' && field_trial_tenantValue === 'Other')"
+            },
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -495,6 +595,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type"],
                 "condition": "(field_hc_typeValue === 'Trial instance')"
+            },
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -509,6 +614,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type"],
                 "condition": "(field_hc_typeValue === 'Trial instance')"
+            },
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -525,6 +635,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type"],
                 "condition": "(field_hc_typeValue === 'Trial instance')"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -544,6 +659,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance"],
                 "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes'))"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -558,6 +678,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance"],
                 "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes'))"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -582,6 +707,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance"],
                 "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes'))"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -606,6 +736,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance"],
                 "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes'))"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -620,6 +755,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance"],
                 "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes'))"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -644,6 +784,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance"],
                 "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes') || field_hc_typeValue === 'Trial instance')"
+            },
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -658,6 +803,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance", "field_integration_corteca"],
                 "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes') || field_hc_typeValue === 'Trial instance') && field_integration_cortecaValue === 'Yes'"
+            },
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -682,6 +832,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance"],
                 "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes') || field_hc_typeValue === 'Trial instance')"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -696,6 +851,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance"],
                 "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes') || field_hc_typeValue === 'Trial instance')"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -710,6 +870,11 @@
             "visibility": {
                 "dependsOn": ["field_hc_type", "field_dedicated_legal_clearance", "field_multi_legal_clearance"],
                 "condition": "((field_hc_typeValue === 'Dedicated instance' &&  field_dedicated_legal_clearanceValue === 'Yes') || (field_hc_typeValue === 'Multi-tenant instance' && field_multi_legal_clearanceValue === 'Yes') || field_hc_typeValue === 'Trial instance')"
+            },
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -721,7 +886,12 @@
             "comments": "",
             "hidden": false,
             "listHidden": false,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 20
+            }
         },
         {
             "label": "Do you want to add a Nokia setup to be managed by this home controller?",
@@ -729,7 +899,12 @@
             "onClick": "onAddDeviceDPClick",
             "class": "add-devicedp",
             "hidden": false,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         }
     ]
 }

@@ -33,7 +33,12 @@
             "key": true,
             "span": 8,
             "header": true,
-            "disabled": true
+            "disabled": true,
+            "size": {
+                "item": 8,
+                "label": 8,
+                "field": 16
+            }
         },
         {
             "label": "Status",
@@ -75,6 +80,11 @@
             "change": {
                 "func": "onStatusChange",
                 "message": ""
+            },
+            "size": {
+                "item": 8,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -124,7 +134,12 @@
             "comments": "",
             "hidden": false,
             "span": 8,
-            "header": true
+            "header": true,
+            "size": {
+                "item": 8,
+                "label": 8,
+                "field": 16
+            }
         },
         {
             "label": "Customer",
@@ -143,6 +158,11 @@
             "change": {
                 "func": "onRootDeviceOptionsUpdate",
                 "message": "Please contact the FN professional services team!"
+            },
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -150,7 +170,12 @@
             "type": "button",
             "onClick": "onCustomerAddClick",
             "hidden": false,
-            "span": 12
+            "span": 12,
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
+            }
         },
         {
             "label": "Customer Id",
@@ -172,7 +197,12 @@
             "hidden": false,
             "listHidden": false,
             "span": 24,
-            "disabled": true
+            "disabled": true,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 20
+            }
         },
         {
             "label": "Key",
@@ -193,7 +223,12 @@
             "comments": "",
             "hidden": true,
             "listHidden": true,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 20
+            }
         },
         {
             "label": "Root Device",
@@ -208,7 +243,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 12
+            "span": 12,
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
+            }
         },
         {
             "label": "Product Variant",
@@ -228,7 +268,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 12
+            "span": 12,
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
+            }
         },
         {
             "label": "BizLine",
@@ -249,7 +294,12 @@
             "comments": "",
             "hidden": true,
             "listHidden": true,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 20
+            }
         },
         {
             "label": "Will this device deployment be managed by a Corteca Home Controller?",
@@ -273,6 +323,11 @@
             "change": {
                 "func": "onRootDeviceOptionsUpdate",
                 "message": "Please contact the FN professional services team!"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -299,7 +354,12 @@
                 "dependsOn": ["field_managed_by_hc"],
                 "condition": "(field_managed_by_hcValue === 'Yes')"
             },
-            "stopMessage": "Please contact plm!"
+            "stopMessage": "Please contact plm!",
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Managed by HDM",
@@ -323,6 +383,11 @@
             "visibility": {
                 "dependsOn": ["field_managed_by_hc"],
                 "condition": "(field_managed_by_hcValue === 'Yes')"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -368,7 +433,12 @@
             "comments": "",
             "hidden": false,
             "tooltip": "https://confluence.ext.net.nokia.com/display/CORTECA/Beacon+deployment+guidelines#Beacondeploymentguidelines-Upgradingbeacons",
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Was the OTA license included in the customer opportunity or was there an approval given by BBD for providing OTA updates?",
@@ -392,6 +462,11 @@
             "visibility": {
                 "dependsOn": ["field_root_update_method", "field_managed_by_hc"],
                 "condition": "(field_root_update_methodValue === 'OTA' && field_managed_by_hcValue != 'Yes')"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -417,6 +492,11 @@
             "visibility": {
                 "dependsOn": ["field_root_update_method", "bizline"],
                 "condition": "(field_root_update_methodValue === 'OTA' && bizlineValue === 'NWF')"
+            },
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -433,6 +513,11 @@
             "visibility": {
                 "dependsOn": ["field_auto_ota"],
                 "condition": "(field_auto_otaValue === 'Yes' )"
+            },
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -458,6 +543,11 @@
             "visibility": {
                 "dependsOn": ["field_root_device"],
                 "condition": "(field_root_deviceValue && field_root_deviceValue.startsWith('Beacon'))"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -487,6 +577,11 @@
             "visibility": {
                 "dependsOn": ["field_boeng_rule"],
                 "condition": "(field_boeng_ruleValue === 'Yes' )"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -501,6 +596,11 @@
             "visibility": {
                 "dependsOn": ["field_whitelisting_method"],
                 "condition": "(field_whitelisting_methodValue === 'IP based' )"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 20
             }
         },
         {
@@ -518,6 +618,11 @@
             "visibility": {
                 "dependsOn": ["field_whitelisting_method"],
                 "condition": "(field_whitelisting_methodValue === 'Serial number' )"
+            },
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -551,6 +656,15 @@
             "visibility": {
                 "dependsOn": ["field_boeng_rule"],
                 "condition": "(field_boeng_ruleValue === 'Yes' )"
+            },
+            "commentVisibility": {
+                "dependsOn": ["field_managed_by_hc"],
+                "condition": "(field_managed_by_hcValue === 'Yes' )"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -570,6 +684,11 @@
             "visibility": {
                 "dependsOn": ["field_boeng_options"],
                 "condition": "(field_boeng_optionsValue && field_boeng_optionsValue.includes('TR069') )"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -588,6 +707,11 @@
             "visibility": {
                 "dependsOn": ["field_boeng_options"],
                 "condition": "(field_boeng_optionsValue && field_boeng_optionsValue.includes('3rd party USP Controller') )"
+            },
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -608,7 +732,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Mesh extender",
@@ -628,6 +757,11 @@
             "visibility": {
                 "dependsOn": ["field_mesh_extended"],
                 "condition": "(field_mesh_extendedValue === 'Yes' )"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -664,6 +798,11 @@
             "visibility": {
                 "dependsOn": ["field_mesh_extended"],
                 "condition": "(field_mesh_extendedValue === 'Yes' )"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -688,6 +827,11 @@
             "visibility": {
                 "dependsOn": ["field_managed_by_hc", "field_root_update_method"],
                 "condition": "(field_managed_by_hcValue === 'No' && field_root_update_methodValue != 'OTA' && field_root_update_methodValue != '' )"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -712,6 +856,11 @@
             "visibility": {
                 "dependsOn": ["field_managed_by_hc", "field_root_update_method"],
                 "condition": "(field_managed_by_hcValue === 'No' && field_root_update_methodValue != 'OTA' && field_root_update_methodValue != '' )"
+            },
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -728,6 +877,11 @@
             "visibility": {
                 "dependsOn": ["field_extender_auto_ota"],
                 "condition": "(field_extender_auto_otaValue === 'Yes' )"
+            },
+            "size": {
+                "item": 12,
+                "label": 8,
+                "field": 16
             }
         },
         {
@@ -742,6 +896,11 @@
             "visibility": {
                 "dependsOn": ["field_status"],
                 "condition": "(field_statusValue !== 'New' )"
+            },
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
             }
         },
         {
@@ -753,7 +912,12 @@
             "comments": "",
             "hidden": false,
             "listHidden": false,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 20
+            }
         }
     ]
 }

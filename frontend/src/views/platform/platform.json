@@ -20,7 +20,12 @@
             "comments": "",
             "hidden": true,
             "listHidden": false,
-            "key": true
+            "key": true,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Platform",
@@ -30,7 +35,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Type",
@@ -50,7 +60,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Customer/Trials",
@@ -70,7 +85,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Public Cloud",
@@ -90,7 +110,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Cloud SW",
@@ -100,7 +125,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Region",
@@ -110,7 +140,12 @@
             "rules": ["required"],
             "comments": "",
             "hidden": false,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Creator",
@@ -121,7 +156,12 @@
             "comments": "",
             "hidden": true,
             "listHidden": true,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Createon",
@@ -132,7 +172,12 @@
             "comments": "",
             "hidden": true,
             "listHidden": true,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Modifier",
@@ -143,7 +188,12 @@
             "comments": "",
             "hidden": true,
             "listHidden": true,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         },
         {
             "label": "Modifiedon",
@@ -154,7 +204,12 @@
             "comments": "",
             "hidden": true,
             "listHidden": true,
-            "span": 24
+            "span": 24,
+            "size": {
+                "item": 24,
+                "label": 4,
+                "field": 8
+            }
         }
     ]
 }
