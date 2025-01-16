@@ -4,6 +4,8 @@ services:
     image: public.ecr.aws/docker/library/mysql:8.2.0
     environment:
       - "MYSQL_ROOT_PASSWORD=Welcome#1234"
+    ports:
+      - "3306:3306"
     networks:
       - django-nginx
 
