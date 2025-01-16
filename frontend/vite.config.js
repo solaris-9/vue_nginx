@@ -41,6 +41,14 @@ export default defineConfig(({ command, mode }) => {
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
       },
+    },
+
+    css: {
+      preprocessorOptions: {
+        scss: {
+          implementation: require("sass"),
+        },
+      },
     }
    
   };
