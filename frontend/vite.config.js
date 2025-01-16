@@ -47,6 +47,7 @@ export default defineConfig(({ command, mode }) => {
       preprocessorOptions: {
         scss: {
           implementation: require("sass"),
+          api: 'modern-compiler'
         },
       },
     }
