@@ -13,7 +13,7 @@ class Jira:
     server = None
     def __init__(self, sever=None):
         self.server = sever or 'https://jiradc2.ext.net.nokia.com/'
-        db = dc('requestdb')
+        db = dc('devicedp')
         df = db.read_query('select `Token` from tbl_api_token limit 1')
         logger.info(f'df = {df}')
         token = df.at[0, "Token"]

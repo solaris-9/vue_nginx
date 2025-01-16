@@ -120,6 +120,15 @@ DATABASES = {
         'PORT': 3306,
         'charset':'utf8mb4',
     },
+    'devicedp': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'devicedp',
+        'USER': 'ddpAdmin',
+        'PASSWORD': 'ddpAdmin',
+        'HOST': '10.129.115.134',
+        'PORT': 3306,
+        'charset':'utf8',
+    },
     'customerdb': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'customerdb',

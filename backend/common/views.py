@@ -27,7 +27,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 logger = logging.getLogger("django")
 
-#db = dc('requestdb')
+#db = dc('devicedp')
 
 @csrf_exempt
 def contacts_list(request):
@@ -81,7 +81,7 @@ def customer_list(request):
 
     local_sql = 'SELECT `Customer` as customer, `Key` as id FROM `tbl_local_customers`'
     logger.debug(f'fetch_customer: {local_sql}')
-    db = dc('requestdb')
+    db = dc('devicedp')
     local_df = db.read_query(local_sql)
     for i_index in local_df.index:
         l_cus = local_df.at[i_index, 'customer']
@@ -109,7 +109,7 @@ def nwcc_list(request):
         'field_customer',
         'field_status'
     ]
-    db = dc('requestdb')
+    db = dc('devicedp')
     df = db.read_query(
         'select {fields} from `tbl_nwcc`'.format(
             fields=','.join(
@@ -184,7 +184,7 @@ def device_list(request):
 def country_list(request):
     sql = "select `country`,`iso` from `tbl_country` order by `iso` ASC"
     logger.debug(f'sql = {sql}')
-    db = dc('requestdb')
+    db = dc('devicedp')
     df = db.read_query(sql)
 
     res = {}
@@ -204,7 +204,7 @@ def country_list(request):
 def hosting_list(request):
     sql = "select `field_public_cloud` as cloud,`field_region` as region from `tbl_platform`"
     logger.debug(f'sql = {sql}')
-    db = dc('requestdb')
+    db = dc('devicedp')
     df = db.read_query(sql)
 
     res = {}

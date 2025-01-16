@@ -27,7 +27,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 logger = logging.getLogger("django")
 
-db = dc('bbddb')
+#db = dc('bbddb')
 tbl = 'jira_issues_cust'
 
 table_fields = {
@@ -308,6 +308,7 @@ def handle_add(tbl, data, mail):
         values=l_values
     )
     logger.info(f'handle_new_customer_add: {sql}')
+    db = dc('bbddb')
     db.execute(sql)
     return 'New Customer Add successful'
 

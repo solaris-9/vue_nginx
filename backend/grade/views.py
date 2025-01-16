@@ -26,7 +26,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 logger = logging.getLogger("django")
 
-# db = dc('requestdb')
+# db = dc('devicedp')
 tbl = 'auth_grade'
 
 grade_fields = {
@@ -60,7 +60,7 @@ def grade_list(request):
             id = request.GET['gid']
             sql = f'{sql} where `GID` = "{id}" '
         logger.info(f'sql = {sql}')
-        db = dc('requestdb')
+        db = dc('devicedp')
         df = db.read_query(sql)
         for i_index in df.index:
             item = {}
@@ -88,7 +88,7 @@ def handle_grade_edit(tbl, data):
         GID=data['GID']
     )
     logger.debug(f'handle_grade_edit, sql = {sql}')
-    db = dc('requestdb')
+    db = dc('devicedp')
     db.execute(sql)
 
     pass
@@ -106,7 +106,7 @@ def handle_grade_add(tbl, data):
             values=generated_str[1]
         )
     logger.info(f'handle_grade_add: sql = {sql}')
-    db = dc('requestdb')
+    db = dc('devicedp')
     db.execute(sql)
     rt =  'Add successful, back and refresh page to show it'
 
@@ -164,7 +164,7 @@ def grade_delete(request):
             B_LIST=u.generate_delete_sql(ids)
         )
         logger.info(f'grade_delete, sql = {sql}')
-        db = dc('requestdb')
+        db = dc('devicedp')
         db.execute(sql)
     except Exception as e:
         logger.info(f"exception caught: {e}")
@@ -187,7 +187,7 @@ def role_list(request):
         sql = 'SELECT distinct `Grade` FROM `auth_grade` '
         ttype = request.GET['type']
         logger.info(f'sql = {sql}')
-        db = dc('requestdb')
+        db = dc('devicedp')
         df = db.read_query(sql)
         for i_index in df.index:
             item = {}

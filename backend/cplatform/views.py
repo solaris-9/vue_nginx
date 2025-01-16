@@ -22,7 +22,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 logger = logging.getLogger("django")
 
-# db = dc('requestdb')
+# db = dc('devicedp')
 tbl = 'tbl_platform'
 
 table_fields = {
@@ -57,9 +57,10 @@ def list(request):
             id = request.GET['ID']
             sql = f'{sql} where `Id` = "{id}" '
         logger.info(f'sql = {sql}')
-        db = dc('requestdb')
+        db = dc('devicedp')
         df = db.read_query(sql)
-        df = df.replace({np.nan: None}).fillna('')
+        with pd.option_context('future.no_silent_downcasting', True):
+            df = df.replace({np.nan: None}).fillna('')
         for i_index in df.index:
             item = {}
             for field in table_fields.keys():
@@ -86,7 +87,7 @@ def handle_edit(tbl, data):
         id=data['ID']
     )
     logger.debug(f'handle_edit, sql = {sql}')
-    db = dc('requestdb')
+    db = dc('devicedp')
     db.execute(sql)
 
     pass
@@ -104,7 +105,7 @@ def handle_add(tbl, data):
             values=generated_str[1]
         )
     logger.info(f'handle_add: sql = {sql}')
-    db = dc('requestdb')
+    db = dc('devicedp')
     db.execute(sql)
     rt =  'Add successful, back and refresh page to show it'
 
@@ -159,7 +160,7 @@ def delete(request):
             LIST=u.generate_delete_sql(ids)
         )
         logger.info(f'delete, sql = {sql}')
-        db = dc('requestdb')
+        db = dc('devicedp')
         db.execute(sql)
     except Exception as e:
         logger.info(f"exception caught: {e}")

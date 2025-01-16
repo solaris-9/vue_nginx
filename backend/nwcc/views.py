@@ -23,7 +23,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 logger = logging.getLogger("django")
 
-# db = dc('requestdb')
+# db = dc('devicedp')
 tbl = 'tbl_nwcc'
 
 table_fields = {
@@ -87,9 +87,12 @@ def list(request):
             id = request.GET['ID']
             sql = f'{sql} where `Id` = "{id}" '
         logger.info(f'sql = {sql}')
-        db = dc('requestdb')
+        db = dc('devicedp')
         df = db.read_query(sql)
-        df = df.replace({np.nan: None}).fillna('').infer_objects(copy=False)
+        with pd.option_context('future.no_silent_downcasting', True):
+            df = df.replace({np.nan: None}).fillna('')
+        # df = df.replace({np.nan: None})
+        # df = df.fillna('').infer_objects(copy=False)
         for i_index in df.index:
             item = {}
             for field in table_fields.keys():
@@ -116,7 +119,7 @@ def handle_edit(tbl, data):
         id=data['ID']
     )
     logger.debug(f'handle_edit, sql = {sql}')
-    db = dc('requestdb')
+    db = dc('devicedp')
     db.execute(sql)
 
     # sending email
@@ -144,7 +147,7 @@ def handle_add(tbl, data):
     l_data = data
     logger.info(f'handle_add, data = f{data}')
     # l_data['ID'] = u.strNum(u.gen_tbl_index(tbl, 'ID', db), 'DEVICEDP-', 10)
-    db = dc('requestdb')
+    db = dc('devicedp')
     l_data['ID'] = u.strNum(u.gen_tbl_index(tbl, 'ID', db), 'NWCC-', 10)
 
     generated_str = u.generate_insert_sql(table_fields, l_data, skip=['modifier', 'modifiedon'])
@@ -227,7 +230,7 @@ def delete(request):
             LIST=u.generate_delete_sql(ids)
         )
         logger.info(f'delete, sql = {sql}')
-        db = dc('requestdb')
+        db = dc('devicedp')
         db.execute(sql)
     except Exception as e:
         logger.info(f"exception caught: {e}")

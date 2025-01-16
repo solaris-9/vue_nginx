@@ -103,7 +103,7 @@
             "rules": [],
             "comments": "",
             "hidden": true,
-            "listHidden": true,
+            "listHidden": false,
             "size": {
                 "item": 24,
                 "label": 4,
